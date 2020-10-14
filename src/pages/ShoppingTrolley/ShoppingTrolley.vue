@@ -1,17 +1,13 @@
 <template>
     <div>
-        <router-view></router-view>
+        购物车
     </div>
 </template>
-
 <script>
-
-
 export default {
-
+    
 }
 </script>
-
-<style>
+<style lang="stylus" scoped>
 
 </style>
