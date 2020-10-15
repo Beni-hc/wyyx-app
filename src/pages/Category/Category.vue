@@ -1,11 +1,17 @@
 <template>
     <div>
-        分类
+        <categoryHead />
+        <categoryBody />
     </div>
 </template>
 <script>
+import categoryHead from './Category/categoryHead'
+import categoryBody from './Category/categoryBody'
 export default {
-    
+    components:{
+        categoryHead,
+        categoryBody
+    }
 }
 </script>
 <style lang="stylus" scoped>

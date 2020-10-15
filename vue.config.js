@@ -8,7 +8,7 @@ module.exports = {
     // 设置为 true 后你就可以在 Vue 组件中使用 
     // template 选项了，但是这会让你的应用额外增加 10kb 左右。
     // runtimeCompiler: true,
-    //语法检查关闭
+    // 语法检查关闭
     lintOnSave: false,
     css: {
         loaderOptions: {
@@ -16,7 +16,7 @@ module.exports = {
                 plugins: [
                     postcss
                 ]
-            }
-        }
-    }
+            },
+        },
+    },
 }
