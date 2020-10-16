@@ -1,18 +1,18 @@
 <template>
-    <div>
-        <homeHead />
+    <div style="">
+        <Heading />
         <homeBody />
     </div>
 </template>
 <script>
-import homeHead from './Home/homeHead'
+import Heading from '../../components/Heading/Heading'
 import homeBody from './Home/homeBody'
 
 
 export default {
     name: 'home',
     components:{
-        homeHead,
+        Heading,
         homeBody
     }
 }
