@@ -1,144 +1,124 @@
 <template>
-  <div class="bottom">
-    <div v-show="isShow" class="navHead">全部频道</div>
-    <div :class="isShow ? 'leftListShow' : 'leftList'">
-      <div
-        :class="isShow ? 'navListShow' : 'navList'"
-        :style="roll"
-        @touchstart.stop.prevent="rollStart($event)"
-        @touchmove.stop.prevent="rollMove($event)"
-        @touchend.stop.prevent="rollEnd($event)"
+  <div class='scrollNavX' ref='scrollNavX' :style="{height:lineHeight/75+'rem'}">
+    <ul class='scrollItem'>
+      <li v-for="(nav,index) in listNav" :key='index' 
+      :style="!!index ? {'margin-left': sbt/75 + 'rem'} : ''"
       >
-        <span
-          v-for="(lst, index) in listNav"
-          :key="lst"
-          :class="[
-            isShow
-              ? ['spanShow', { ['textShow']: colorIndex === index }]
-              : ['isSpan', { ['red redText']: colorIndex === index }],
-          ]"
-          :data_index="index"
-          >{{ lst }}</span
-        >
-        <!-- <span :class="isShow ? 'spanShow' : 'isSpan' ">居家生活</span>
-                            <span :class="isShow ? 'spanShow' : 'isSpan' ">服饰鞋包</span>
-                            <span :class="isShow ? 'spanShow' : 'isSpan' ">美食酒水</span>
-                            <span :class="isShow ? 'spanShow' : 'isSpan' ">个护清洁</span>
-                            <span :class="isShow ? 'spanShow' : 'isSpan' ">巨婴亲子</span>
-                            <span :class="isShow ? 'spanShow' : 'isSpan' ">运动旅行</span>
-                            <span :class="isShow ? 'spanShow' : 'isSpan' ">数码家电</span>
-                            <span :class="isShow ? 'spanShow' : 'isSpan' ">严选全球</span> -->
-      </div>
-    </div>
-    <div class="rightList">
-      <div></div>
-      <div @touchstart.stop.prevent="isShow = !isShow">
-        <div></div>
-      </div>
-    </div>
+        <span :style="[spanStyle]" 
+        >{{nav}}</span>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
-export default {};
+import BScroll from '@better-scroll/core'
+export default {
+  name:'scrollNavX',
+  props:{
+    //间距
+    sbt:{
+      type:Number,
+      default: 20
+    },
+    //字体大小
+    fontSize:{
+      type:Number,
+      default: 28
+    },
+    //字体两边的内边距
+    padWith:{
+      type:Number,
+      default: 16
+    },
+    //行高
+    lineHeight:{
+      type:Number,
+      default: 60
+    },
+    //点击字体颜色
+    activText:{
+      type:String,
+      default:'#dd1a21'
+    },
+    //点击下边框宽度
+    activWith:{
+      type:Number,
+      default:4
+    },
+    //点击下边框颜色
+    activColor:{
+      type:String,
+      default:'#dd1a21'
+    },
+    //数据列表
+    listNav:{
+      type:Array,
+      default:function(){
+        return ['推荐','居家生活','服饰鞋包','美食酒水','个护清洁','巨婴亲子','运动旅行','数码家电','严选全球']
+      }
+    }
+  },
+  data(){
+    return {
+           
+    }
+  },
+  computed:{
+    spanStyle(){
+      return {
+        'font-size': this.fontSize/75 + 'rem',
+        'padding': 0 + 'rem' +' '+this.padWith/75 + 'rem',
+        'line-height': this.lineHeight/75 + 'rem'
+      }
+    },
+  },
+  mounted(){
+    this.$nextTick(function(){
+      let style = document.createElement('style')
+      style.innerHTML = `.text {
+        color: ${this.activText}!important;
+        }\n.text::after {
+        content: '';
+        width: 100%;
+        height: ${this.activWith/75}rem;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        background-color: ${this.activColor};
+      }`
+      document.head.appendChild(style)
+      this.scroll = new BScroll(this.$refs.scrollNavX,{
+        startX:0,
+        click:true,
+        scrollX:true,
+        scrollY:false,
+        // eventPassthrough:'vertical'
+      })
+    })
+
+  }
+};
 </script>
 
 <style lang="stylus" scoped>
-.bottom
+.scrollNavX
   width 100%
-  height 57px
-  position relative
-  top 0
-  left 0
-  z-index 100
-  .navHead
-    width 720px
-    height 57px
-    line-height 57px
-    margin-left 33px
-    font-size 24px
-  .rightList
-    width 160px
-    height 57px
-    display flex
-    position absolute
-    top 0
-    right 0
-    z-index 2
-    &>div:first-child
-      width 60px
-      height 57px
-      background linear-gradient(to right, rgba(250, 255, 255, 0), rgba(250, 255, 255, 0.7), rgba(255, 255, 255, 1))
-    &>div:last-child
-      width 100px
-      height 57px
-      display flex
-      justify-content center
-      align-items center
-      background-color #fff
-      div
-        width 32px
-        height 20px
-        background-image url('../../assets/tubiao2.png')
-        background-origin content-box
-        background-repeat no-repeat
-        background-position -31px -4px
-        background-size 86px
-.leftListShow
-  width 100%
-  height 100%
-.navListShow
-  width 100%
-  height 310px
-  padding 28px 30px 40px
   display flex
-  flex-direction row
-  flex-flow wrap
-  justify-content space-between
-  align-content space-between
+  flex-flow row nowrap
   background-color #fff
-.spanShow
-  width 150px
-  height 57px
-  text-align center
-  line-height 57px
-  border 1px solid #e9e9e9
-  border-radius 8px
-  font-size 24px
-  background-color #fafafa
-.textShow
-  border 1px solid #f2a9ac
-  color #dd1a21
-.leftList
-  width 100%
-  height 100%
-  overflow hidden
-.navList
-  width 1400px
-  margin-left 33px
-  height 57px
+.scrollItem 
+  width auto
   display flex
-  flex-direction row
-  flex-wrap nowrap
-  align-items center
-  justify-content space-between
-  font-size 24px
-  transition-property transform
-.isSpan
-  position relative
-  top 0
-  left 0
-  margin 0 18px
-.red::after
-  content ''
-  position absolute
-  left -16px
-  bottom -12px
-  width 100%
-  padding 0 16px
-  height 4px
-  background-color #dd1a21
-.redText
-  color #dd1a21
-
+  flex-flow row nowrap
+  flex-shrink 0
+  li 
+    width auto
+    flex-shrink 0
+    span 
+      display inline-block
+      color #333
+      position relative
+      top 0
+      left 0
 </style>
 
