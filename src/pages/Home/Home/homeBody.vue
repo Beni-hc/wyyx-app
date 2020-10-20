@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-import banner from "./homebody/banner";
+import banner from "../../../components/banner/banner";
 import classify from "./homebody/classify";
 import choiceness from "./homebody/choiceness";
 import bodylist1 from "./homebody/bodyList1";

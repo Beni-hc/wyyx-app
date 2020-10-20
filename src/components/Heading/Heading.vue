@@ -4,7 +4,7 @@
     <div class="headPosition">
       <div class="topApp" v-show="showApp">
         <div>
-          <div class="iconfont icon-label-lt">
+          <div class="iconfont icon-label-lt" @touchstart='showApp = false'>
             <i class="iconfont icon-svg--copy"></i>
           </div>
         </div>
@@ -18,9 +18,9 @@
           <div class="rightOnOff">
             <div></div>
             <div @touchstart.stop.prevent="show = !show">
-              <transition>
-                <div class="iconfont icon-arrow-down"></div>
-              </transition>
+              <div class="iconfont icon-arrow-down rotate" 
+              :style="show || {transform: 'rotateZ(180deg)'}"
+              ></div>
             </div>
           </div>
         </div>
@@ -77,6 +77,9 @@ export default {
 };
 </script>
 <style lang="stylus" scoped>
+.rotate
+  transition transform 600ms
+  transform rotateZ(0deg)
 .scrollWidth
   width 650px
   height 100%

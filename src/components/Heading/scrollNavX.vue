@@ -3,7 +3,7 @@
     <ul class='scrollItem' :style="{padding: '0rem' +' '+ scrollpadding/75+'rem'}">
       <li v-for="(nav,index) in listNav" :key='index' 
       :style="!!index ? {'margin-left': sbt/75 + 'rem'} : ''" 
-      @click='_showIndex(index)'
+      @touchstart='_showIndex(index)'
       >
         <span :style="[spanStyle]" 
         :class='{text:isShow === index}' 
