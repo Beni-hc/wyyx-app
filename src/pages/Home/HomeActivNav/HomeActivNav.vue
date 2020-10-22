@@ -1,49 +1,61 @@
 <template>
     <div>
-        <div class='activNav'>全部频道</div>
-        <ul class='activList'>
-            <li v-for="(list,index) in listNav" :key='index' 
-            :class='{activRed: isShow === index}'
-            @click='activShow(index)'
-            >{{list}}</li>
+        <div class="activNav">全部频道</div>
+        <ul class="activList">
+            <li
+                v-for="(list, index) in listNav"
+                :key="index"
+                :class="{ activRed: isShow === index }"
+                @click="activShow(index)"
+            >
+                {{ list }}
+            </li>
         </ul>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'HomeActivNav',
-        data(){
-            return {
-                isShow:0
-            }
-        },
-        props:{
-            listNav:{
-                type:Array,
-                default:function(){
-                    return ['推荐','居家生活','服饰鞋包','美食酒水','个护清洁','巨婴亲子','运动旅行','数码家电','严选全球']
-                }
+export default {
+    name: "HomeActivNav",
+    data() {
+        return {
+            isShow: 0,
+        };
+    },
+    props: {
+        listNav: {
+            type: Array,
+            default: function () {
+                return [
+                    "推荐",
+                    "居家生活",
+                    "服饰鞋包",
+                    "美食酒水",
+                    "个护清洁",
+                    "巨婴亲子",
+                    "运动旅行",
+                    "数码家电",
+                    "严选全球",
+                ];
             },
-            showIndex:{
-                type:Number,
-                default: 0
-            }
         },
-        methods:{
-            activShow(index){
-                this.isShow = index
-                this.$emit('activ-nav-index',index)
-            }
+        showIndex: {
+            type: Number,
+            default: 0,
         },
-        computed:{
+    },
+    methods: {
+        activShow(index) {
+            this.isShow = index;
+            this.$emit("activ-nav-index", index);
         },
-        watch:{
-            showIndex(val){
-                this.isShow = val
-            }
-        }
-    }
+    },
+    watch: {
+        showIndex(val) {
+            this.isShow = val;
+        },
+    },
+};
 </script>
 
 <style lang="stylus" scoped>

@@ -17,6 +17,47 @@ import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
 export default {
     name: "banenr",
+    props: {
+        bannerlist: {
+            type: Array,
+            default: function () {
+                return [
+                    {
+                        id: 1,
+                        bannerImg: require("../../assets/banner_img/banner1.webp"),
+                    },
+                    {
+                        id: 2,
+                        bannerImg: require("../../assets/banner_img/banner2.webp"),
+                    },
+                    {
+                        id: 3,
+                        bannerImg: require("../../assets/banner_img/banner3.webp"),
+                    },
+                    {
+                        id: 4,
+                        bannerImg: require("../../assets/banner_img/banner4.webp"),
+                    },
+                    {
+                        id: 5,
+                        bannerImg: require("../../assets/banner_img/banner5.webp"),
+                    },
+                    {
+                        id: 6,
+                        bannerImg: require("../../assets/banner_img/banner6.webp"),
+                    },
+                    {
+                        id: 7,
+                        bannerImg: require("../../assets/banner_img/banner7.webp"),
+                    },
+                    {
+                        id: 8,
+                        bannerImg: require("../../assets/banner_img/banner8.webp"),
+                    },
+                ];
+            },
+        },
+    },
     components: {
         Swiper,
         SwiperSlide,
@@ -30,93 +71,53 @@ export default {
                 pagination: {
                     el: ".swiper-pagination",
                 },
+                autoplay: true, //自动滑动
+                loop: true, //无缝滚动
+                on: {
+                    click: function () {
+                        //vm分发点击
+                        this.vmToSwiper.$emit("bannerIndex", this.realIndex);
+                    },
+                },
             },
-            bannerlist: [
-                {
-                    id: 1,
-                    bannerImg: require("../../assets/banner_img/banner1.webp"),
-                },
-                {
-                    id: 2,
-                    bannerImg: require("../../assets/banner_img/banner2.webp"),
-                },
-                {
-                    id: 3,
-                    bannerImg: require("../../assets/banner_img/banner3.webp"),
-                },
-                {
-                    id: 4,
-                    bannerImg: require("../../assets/banner_img/banner4.webp"),
-                },
-                {
-                    id: 5,
-                    bannerImg: require("../../assets/banner_img/banner5.webp"),
-                },
-                {
-                    id: 6,
-                    bannerImg: require("../../assets/banner_img/banner6.webp"),
-                },
-                {
-                    id: 7,
-                    bannerImg: require("../../assets/banner_img/banner7.webp"),
-                },
-                {
-                    id: 8,
-                    bannerImg: require("../../assets/banner_img/banner8.webp"),
-                },
-            ],
         };
     },
-    methods: {},
-    computed: {},
-    mounted() {},
+    mounted() {
+        //vm挂载到swiper上
+        this.mySwiper.vmToSwiper = this;
+    },
 };
 </script>
-<style lang="stylus" scoped>
-.imgStyle
+<style lang="stylus">
+.swiper-container
     width 100%
-.banner
-    width 100%
-    height 297px
+    height 100%
     position relative
-    top 0
-    left 0
     overflow hidden
-.bannerAds
-    display flex
-    flex-flow row nowrap
     z-index 1
-    position absolute
-    top 0
-    left 0
-    li
-        width 750px
-        height 297px
-        position relative
-        top 0
-        left 0
-        flex-shrink 0
-        overflow hidden
-        img
-            width 100%
-            position absolute
-            left 0
-            top 50%
-            transform translateY(-50%)
-.bannerDot
-    width 100%
-    height 5px
-    position absolute
-    top 264px
-    left 0
-    z-index 10
-    display flex
-    justify-content center
-    li
-        width 40px
-        height 100%
-        margin 0 6px
-        background-color rgba(255, 255, 255, 0.3)
-.isShowDot
-    background-color #fff !important
+    .swiper-wrapper
+        &>.swiper-slide
+            &>img
+                width 100%
+                height auto
+                position absolute
+                left 0
+                top 50%
+                transform translateY(-50%)
+    .swiper-pagination
+        bottom 30px
+        display flex
+        flex-flow row nowrap
+        justify-content center
+        .swiper-pagination-bullet
+            margin 0 10px 0 0
+            width 40px
+            height 4px
+            border-radius 0
+            background #fff
+            opacity 0.4
+        .swiper-pagination-bullet-active
+            opacity 1
+            background #fff
+            border-radius 0
 </style>

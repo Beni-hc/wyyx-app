@@ -1,16 +1,18 @@
 <template>
-  <div>
-    <banner></banner>
-    <classify></classify>
-    <promotion></promotion>
-    <bodylist1></bodylist1>
-    <bodylist2></bodylist2>
-    <bodylist3></bodylist3>
-    <bodylist4></bodylist4>
-    <choiceness></choiceness>
-    <tagend></tagend>
-    <div class="dibian"></div>
-  </div>
+    <div>
+        <div class="banner">
+            <banner></banner>
+        </div>
+        <classify></classify>
+        <promotion></promotion>
+        <bodylist1></bodylist1>
+        <bodylist2></bodylist2>
+        <bodylist3></bodylist3>
+        <bodylist4></bodylist4>
+        <choiceness></choiceness>
+        <tagend></tagend>
+        <div class="dibian"></div>
+    </div>
 </template>
 <script>
 import banner from "../../../components/banner/banner";
@@ -23,22 +25,25 @@ import bodylist4 from "./homebody/bodyList4";
 import promotion from "./homebody/promotion";
 import tagend from "./homebody/tagend";
 export default {
-  components: {
-    banner,
-    classify,
-    choiceness,
-    bodylist1,
-    bodylist2,
-    bodylist3,
-    bodylist4,
-    promotion,
-    tagend,
-  },
+    components: {
+        banner,
+        classify,
+        choiceness,
+        bodylist1,
+        bodylist2,
+        bodylist3,
+        bodylist4,
+        promotion,
+        tagend,
+    },
+    methods: {},
 };
 </script>
-<style scoped>
-.dibian {
-  width: 100%;
-  height: 98px;
-}
+<style lang="stylus" scoped>
+.dibian
+    width 100%
+    height 98px
+.banner
+    height 296px
+    background-color #fff
 </style>
