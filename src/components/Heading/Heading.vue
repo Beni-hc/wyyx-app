@@ -36,13 +36,13 @@
                 <div v-show="show" class="scrollWidth">
                     <scrollNavX
                         @router-path="routerpath"
-                        :showIndex="showIndex_HomeAvtivNav"
+                        :showIndex="showIndex"
                     />
                 </div>
                 <HomeAvtivNav
                     @activ-nav-index="activnavindex"
                     v-show="!show"
-                    :showIndex="showIndex_scrollNavX"
+                    :showIndex="showIndex"
                 />
             </div>
         </div>
@@ -58,17 +58,16 @@ export default {
         return {
             show: true,
             showApp: true,
-            showIndex_HomeAvtivNav: 0,
-            showIndex_scrollNavX: 0,
+            showIndex: 0,
         };
     },
     methods: {
         routerpath(index) {
-            this.showIndex_scrollNavX = index;
+            this.showIndex = index;
         },
         activnavindex(index) {
             this.show = !this.show;
-            this.showIndex_HomeAvtivNav = index;
+            this.showIndex = index;
         },
         activApp(e) {
             let scrollTop =
