@@ -1,9 +1,6 @@
 <template>
     <div>
-        <div
-            class="pad"
-            :style="showApp && { height: +253 / 75 + 'rem' }"
-        ></div>
+        <div class="pad" :style="showApp && { height: 253 / 75 + 'rem' }"></div>
         <div class="headPosition">
             <div class="topApp" v-show="showApp">
                 <div>
