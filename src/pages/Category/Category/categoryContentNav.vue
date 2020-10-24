@@ -8,7 +8,7 @@
                 v-for="(navitem, index) in navlistArray"
                 :class="{ activColor: isActivColor === index }"
                 :key="navitem.id"
-                @tap="activColor(index, navitem.id)"
+                @tap="activColor(navitem.id, index)"
             >
                 {{ navitem.title }}
             </li>
@@ -24,18 +24,7 @@ export default {
         navlistArray: {
             type: Array,
             default: function () {
-                return [
-                    { id: 20001, title: "推荐专区" },
-                    { id: 20002, title: "新品专区" },
-                    { id: 20003, title: "居家生活" },
-                    { id: 20004, title: "服饰鞋包" },
-                    { id: 20005, title: "美食酒水" },
-                    { id: 20006, title: "个护清洁" },
-                    { id: 20007, title: "母婴亲子" },
-                    { id: 20008, title: "运动旅行" },
-                    { id: 20009, title: "数码家电" },
-                    { id: 20010, title: "严选全球" },
-                ];
+                return [];
             },
         },
         width: {
@@ -58,7 +47,7 @@ export default {
         };
     },
     methods: {
-        activColor(index, id) {
+        activColor(id, index) {
             this.isActivColor = index;
             this.id = id;
         },

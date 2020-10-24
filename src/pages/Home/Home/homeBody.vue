@@ -11,7 +11,6 @@
         <bodylist4></bodylist4>
         <choiceness></choiceness>
         <tagend></tagend>
-        <div class="dibian"></div>
     </div>
 </template>
 <script>
@@ -40,9 +39,6 @@ export default {
 };
 </script>
 <style lang="stylus" scoped>
-.dibian
-    width 100%
-    height 98px
 .banner
     height 296px
     background-color #fff

@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="pad" :style="showApp && { height: 253 / 75 + 'rem' }"></div>
+        <div class="pad" :style="{ height: heightChange + 'px' }"></div>
         <div class="headPosition">
-            <div class="topApp" v-show="showApp">
+            <div class="topApp" v-show="showApp" @touchstart="clickApp">
                 <div>
                     <div
                         class="iconfont icon-label-lt"
@@ -15,83 +15,53 @@
                     <img src="../../assets/HeadPop/HeadPop.png" alt="" />
                 </div>
             </div>
-            <div>
-                <xxxxxx />
-                <div class="bottomNav">
-                    <div class="rightOnOff">
-                        <div></div>
-                        <div @touchstart.stop.prevent="show = !show">
-                            <div
-                                class="iconfont icon-arrow-down rotate"
-                                :style="
-                                    show || { transform: 'rotateZ(180deg)' }
-                                "
-                            ></div>
-                        </div>
-                    </div>
-                </div>
-                <div v-show="show" class="scrollWidth">
-                    <scrollNavX
-                        @router-path="routerpath"
-                        :showIndex="showIndex"
-                    />
-                </div>
-                <HomeAvtivNav
-                    @activ-nav-index="activnavindex"
-                    v-show="!show"
-                    :showIndex="showIndex"
-                />
+            <div ref="headHeight">
+                <slot></slot>
             </div>
         </div>
     </div>
 </template>
 <script>
-import xxxxxx from "./xxxxxx";
-import scrollNavX from "./scrollNavX";
-import HomeAvtivNav from "../../pages/Home/HomeActivNav/HomeActivNav";
 export default {
     name: "Heading",
     data() {
         return {
-            show: true,
             showApp: true,
-            showIndex: 0,
+            heightActiv: 0,
+            heightNotActiv: 0,
         };
     },
     methods: {
-        routerpath(index) {
-            this.showIndex = index;
-        },
-        activnavindex(index) {
-            this.show = !this.show;
-            this.showIndex = index;
-        },
-        activApp(e) {
+        _activApp() {
             let scrollTop =
                 document.documentElement.scrollTop || document.body.scrollTop;
             this.showApp = !!!scrollTop;
         },
+        clickApp() {
+            this.$emit("clickApp");
+        },
+        _headHeight() {
+            this.heightNotActiv = this.$refs.headHeight.clientHeight;
+            this.heightActiv = this.$refs.headHeight.parentElement.clientHeight;
+        },
     },
-    components: {
-        xxxxxx,
-        scrollNavX,
-        HomeAvtivNav,
+    computed: {
+        heightChange() {
+            return this.showApp ? this.heightActiv : this.heightNotActiv;
+        },
     },
     mounted() {
-        document.addEventListener("scroll", this.activApp);
+        document.addEventListener("scroll", this._activApp);
+        this._headHeight();
+    },
+    beforeDestroy() {
+        document.removeEventListener("scroll", this.activApp);
     },
 };
 </script>
 <style lang="stylus" scoped>
-.rotate
-    transition transform 600ms
-    transform rotateZ(0deg)
-.scrollWidth
-    width 650px
-    height 100%
 .pad
     width 100%
-    height 149px
 .headPosition
     width 100%
     position fixed !important
@@ -129,32 +99,6 @@ export default {
             img
                 width 100%
                 height 100%
-.bottomNav
-    position relative
-    top 0
-    left 0
-.rightOnOff
-    width 160px
-    height 60px
-    display flex
-    position absolute
-    top 0
-    right 0
-    z-index 2
-    &>div:first-child
-        width 60px
-        height 60px
-        background linear-gradient(to right, rgba(250, 255, 255, 0), rgba(250, 255, 255, 0.7), rgba(255, 255, 255, 1))
-    &>div:last-child
-        width 100px
-        height 60px
-        display flex
-        justify-content center
-        align-items center
-        background-color #fff
-        div
-            font-size 30px
-            color #666
 </style>
 
 

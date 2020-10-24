@@ -3,10 +3,10 @@
         <div class="swiper-wrapper">
             <div
                 class="swiper-slide"
-                v-for="banner in bannerlist"
-                :key="banner.id"
+                v-for="(banner, index) in bannerlist"
+                :key="index"
             >
-                <img :src="banner.bannerImg" alt="" class="imgStyle" />
+                <img :src="banner" alt="" class="imgStyle" />
             </div>
         </div>
         <div class="swiper-pagination"></div>
@@ -22,38 +22,21 @@ export default {
             type: Array,
             default: function () {
                 return [
-                    {
-                        id: 1,
-                        bannerImg: require("../../assets/banner_img/banner1.webp"),
-                    },
-                    {
-                        id: 2,
-                        bannerImg: require("../../assets/banner_img/banner2.webp"),
-                    },
-                    {
-                        id: 3,
-                        bannerImg: require("../../assets/banner_img/banner3.webp"),
-                    },
-                    {
-                        id: 4,
-                        bannerImg: require("../../assets/banner_img/banner4.webp"),
-                    },
-                    {
-                        id: 5,
-                        bannerImg: require("../../assets/banner_img/banner5.webp"),
-                    },
-                    {
-                        id: 6,
-                        bannerImg: require("../../assets/banner_img/banner6.webp"),
-                    },
-                    {
-                        id: 7,
-                        bannerImg: require("../../assets/banner_img/banner7.webp"),
-                    },
-                    {
-                        id: 8,
-                        bannerImg: require("../../assets/banner_img/banner8.webp"),
-                    },
+                    require("../../assets/banner_img/banner1.webp"),
+
+                    require("../../assets/banner_img/banner2.webp"),
+
+                    require("../../assets/banner_img/banner3.webp"),
+
+                    require("../../assets/banner_img/banner4.webp"),
+
+                    require("../../assets/banner_img/banner5.webp"),
+
+                    require("../../assets/banner_img/banner6.webp"),
+
+                    require("../../assets/banner_img/banner7.webp"),
+
+                    require("../../assets/banner_img/banner8.webp"),
                 ];
             },
         },

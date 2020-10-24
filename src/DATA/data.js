@@ -14,7 +14,7 @@ const Category = {
 	],
 	content: {
 		"20001": {
-			title: [],
+			title: [{ id: 21000, title: "" }],
 			content: {
 				"21000": [
 					{
@@ -52,13 +52,13 @@ const Category = {
 				],
 			},
 			img: [
-				require("./dataimg/tjzq/banner2_1"),
-				require("./dataimg/tjzq/banner2_2"),
-				require("./dataimg/tjzq/banner2_3"),
+				require("./dataimg/tjzq//banner2_1.jpg"),
+				require("./dataimg/tjzq/banner2_2.jpg"),
+				require("./dataimg/tjzq/banner2_3.png"),
 			],
 		},
 		"20002": {
-			title: [],
+			title: [{ id: 21000, title: "" }],
 			content: {
 				"21000": [
 					{
@@ -95,7 +95,7 @@ const Category = {
 					},
 				],
 			},
-			img: [require("./dataimg/xpzq/banner_1")],
+			img: [require("./dataimg/xpzq/banner_1.jpg")],
 		},
 		"20003": {
 			title: [
@@ -316,35 +316,35 @@ const Category = {
 				"21003": [
 					{
 						text: "女式外套",
-						img: require("./dataimg/fsxb/fsxb_nz1_1"),
+						img: require("./dataimg/fsxb/fsxb_nz1_1.png"),
 					},
 					{
 						text: "女式针织衫/卫衣",
-						img: require("./dataimg/fsxb/fsxb_nz1_2"),
+						img: require("./dataimg/fsxb/fsxb_nz1_2.png"),
 					},
 					{
 						text: "女式牛仔",
-						img: require("./dataimg/fsxb/fsxb_nz1_3"),
+						img: require("./dataimg/fsxb/fsxb_nz1_3.png"),
 					},
 					{
 						text: "女式裤装",
-						img: require("./dataimg/fsxb/fsxb_nz1_4"),
+						img: require("./dataimg/fsxb/fsxb_nz1_4.png"),
 					},
 					{
 						text: "女式衬衫",
-						img: require("./dataimg/fsxb/fsxb_nz1_5"),
+						img: require("./dataimg/fsxb/fsxb_nz1_5.png"),
 					},
 					{
 						text: "女式T恤/POLO",
-						img: require("./dataimg/fsxb/fsxb_nz1_6"),
+						img: require("./dataimg/fsxb/fsxb_nz1_6.png"),
 					},
 					{
 						text: "女式裙装",
-						img: require("./dataimg/fsxb/fsxb_nz1_7"),
+						img: require("./dataimg/fsxb/fsxb_nz1_7.png"),
 					},
 					{
 						text: "女式半裙",
-						img: require("./dataimg/fsxb/fsxb_nz1_8"),
+						img: require("./dataimg/fsxb/fsxb_nz1_8.png"),
 					},
 				],
 				"21004": [
@@ -504,7 +504,7 @@ const Category = {
 					},
 				],
 			},
-			img: [],
+			img: [require("./dataimg/fsxb/banner_1.jpg")],
 		},
 		"20005": {
 			title: [
@@ -1043,27 +1043,27 @@ const Category = {
 				"21006": [
 					{
 						text: "女式运动T恤",
-						img: require("./dataimg/ydlx/ydlx_nzyd_1_1"),
+						img: require("./dataimg/ydlx/ydlx_nzyd_1_1.png"),
 					},
 					{
 						text: "女式运动外套/卫衣",
-						img: require("./dataimg/ydlx/ydlx_nzyd_1_2"),
+						img: require("./dataimg/ydlx/ydlx_nzyd_1_2.png"),
 					},
 					{
 						text: "女式运动裤装",
-						img: require("./dataimg/ydlx/ydlx_nzyd_1_3"),
+						img: require("./dataimg/ydlx/ydlx_nzyd_1_3.png"),
 					},
 					{
 						text: "女式户外服装",
-						img: require("./dataimg/ydlx/ydlx_nzyd_1_4"),
+						img: require("./dataimg/ydlx/ydlx_nzyd_1_4.png"),
 					},
 					{
 						text: "女式运动内衣/泳装",
-						img: require("./dataimg/ydlx/ydlx_nzyd_1_5"),
+						img: require("./dataimg/ydlx/ydlx_nzyd_1_5.png"),
 					},
 					{
 						text: "女式运动鞋",
-						img: require("./dataimg/ydlx/ydlx_nzyd_1_6"),
+						img: require("./dataimg/ydlx/ydlx_nzyd_1_6.png"),
 					},
 				],
 				"21007": [
@@ -1312,4 +1312,4 @@ const Category = {
 	},
 };
 
-export default { Category };
+export default Category;
