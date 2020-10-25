@@ -29,16 +29,17 @@ export default {
     props: ["id"],
     data() {
         return {
-            datalist: 0,
+            datalist: {},
         };
     },
     methods: {},
-    mounted() {
-        this.datalist = datalistAll;
-    },
+    mounted() {},
     components: {
         banner,
         categoryContentItem,
+    },
+    created() {
+        this.datalist = datalistAll;
     },
 };
 </script>

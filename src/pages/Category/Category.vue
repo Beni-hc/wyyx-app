@@ -1,11 +1,11 @@
 <template>
     <div>
-        <Heading>
+        <Heading @clickApp="offApp">
             <div class="categoryHead">
                 <searchBox :text="categoryData.search" />
             </div>
         </Heading>
-        <div class="categoryBody">
+        <div class="categoryBody" :style="changeHeight">
             <div class="categoryLfet">
                 <categoryContentNav
                     width="100%"
@@ -15,7 +15,7 @@
                 />
             </div>
             <div class="categoryRight" ref="categoryRight">
-                <div>
+                <div class="scrollBlock">
                     <router-view></router-view>
                 </div>
             </div>
@@ -34,7 +34,8 @@ export default {
     name: "category",
     data() {
         return {
-            categoryData: 0,
+            categoryData: {},
+            isShow: true,
         };
     },
     methods: {
@@ -48,6 +49,7 @@ export default {
                     });
                 } else {
                     this.scroll.refresh();
+                    this.scroll.scrollTo(0, 0);
                 }
             });
         },
@@ -56,11 +58,25 @@ export default {
                 path: `/category/categorycontentlist/${id}`,
             });
         },
+        offApp(isShow) {
+            this.isShow = isShow;
+        },
+    },
+    computed: {
+        changeHeight() {
+            return this.isShow
+                ? { height: `calc(100vh - 3.85rem)` }
+                : { height: `calc(100vh - 2.46rem)` };
+        },
     },
     mounted() {
         this._initScroll();
 
         this.categoryData = dataList;
+        let id = this.categoryData.title[0].id;
+        this.$router.replace({
+            path: `/category/categorycontentlist/${id}`,
+        });
     },
     components: {
         Heading,
@@ -68,8 +84,8 @@ export default {
         categoryContentNav,
     },
     watch: {
-        $router() {
-            // this._initScroll();
+        $route() {
+            this._initScroll();
         },
     },
 };
@@ -80,10 +96,21 @@ export default {
     height 87px
     padding 16px 30px
     background-color #fff
+    position relative
+    top 0
+    left 0
+    &:after
+        content ''
+        position absolute
+        bottom 0
+        left 0
+        right 0
+        height 1px
+        background-color rgba(0, 0, 0, 0.15)
+        transform-origin 100% 50% 0
+        z-index 100
 .categoryBody
     width 100%
-    height calc(100vh - 289px)
-    border-top 1px solid #d9d9d9
     background-color #fff
     display flex
     overflow hidden
@@ -97,7 +124,7 @@ export default {
         content ''
         position absolute
         top 0
-        right -1px
+        right 1px
         bottom 0
         width 1px
         background-color rgba(0, 0, 0, 0.15)
@@ -106,5 +133,8 @@ export default {
 .categoryRight
     height 100%
     width 588px
-    padding 30px 30px 21px 30px
+    .scrollBlock
+        width 100%
+        height auto
+        padding 30px 30px 21px 30px
 </style>

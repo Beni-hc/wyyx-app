@@ -38,7 +38,7 @@ export default {
             this.showApp = !!!scrollTop;
         },
         clickApp() {
-            this.$emit("clickApp");
+            this.$emit("clickApp", this.showApp);
         },
         _headHeight() {
             this.heightNotActiv = this.$refs.headHeight.clientHeight;

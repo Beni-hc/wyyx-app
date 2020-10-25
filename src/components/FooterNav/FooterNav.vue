@@ -71,9 +71,7 @@ export default {
             }
         },
     },
-    mounted() {
-        this.$router.push(this.path[this.isRed]);
-    },
+    mounted() {},
 };
 </script>
 <style lang="stylus" rel='stylesheet/stylus' scoped>
