@@ -28,7 +28,7 @@ import BScroll from "@better-scroll/core";
 import Heading from "../../components/Heading/Heading";
 import searchBox from "../../components/Heading/searchBox";
 import categoryContentNav from "../Category/Category/categoryContentNav";
-import dataList from "../../DATA/data";
+import Category from "../../DATA/data";
 
 export default {
     name: "category",
@@ -72,7 +72,7 @@ export default {
     mounted() {
         this._initScroll();
 
-        this.categoryData = dataList;
+        this.categoryData = Category.Category;
         let id = this.categoryData.title[0].id;
         this.$router.replace({
             path: `/category/categorycontentlist/${id}`,

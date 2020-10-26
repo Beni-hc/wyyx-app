@@ -7,23 +7,44 @@
             <img src="../../DATA/dataimg/worthimg/beijtu.jpg" alt="" />
             <img src="../../DATA/dataimg/worthimg/zhidemai.png" alt="" />
             <span>严选好物 用心生活</span>
-            <div class="bannerBox">111111</div>
+            <div class="bannerBox">
+                <worthBanner />
+            </div>
         </div>
-        <div class="lai"></div>
+        <div class="worthbottom">
+            <div>
+                <WorthItem />
+            </div>
+            <div>
+                <WorthItem />
+            </div>
+        </div>
+        <div class="aaaaaa"></div>
     </div>
 </template>
 <script>
 import heading from "../../components/Heading/Heading";
 import generalNav from "../../components/Heading/generalNav";
+import worthBanner from "./Worth/WorthBanner";
+import WorthItem from "./Worth/WorthItem";
 export default {
     name: "worth",
+    data() {
+        return {
+            list: [],
+        };
+    },
     components: {
         heading,
         generalNav,
+        worthBanner,
+        WorthItem,
     },
 };
 </script>
 <style lang="stylus" scoped>
+.aaaaaa
+    height 500px
 .worthtop
     width 100%
     position relative
@@ -52,11 +73,16 @@ export default {
     height 540px
     margin 0 auto
     border-radius 12px
-    background-color red
+    background-color #fff
     position relative
     top 0
-.lai
-    height 3000px
+.worthbottom
+    width 100%
+    padding 30px 20px 0 20px
+    display flex
+    flex-flow row nowrap
+    justify-content space-between
+    div
+        width 345px
 </style>
-<style >
-</style>
+

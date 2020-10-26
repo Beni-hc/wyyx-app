@@ -1313,87 +1313,103 @@ const Category = {
 };
 const worth = {
 	banner: [
-		{
-			img: require("./dataimg/worthimg/bannerimg/czzq.gif"),
-			title: "超值专区",
-			text: "新定价直降",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/yjhd.png"),
-			title: "有奖互动",
-			text: "购物全天赚",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/ygjx.png"),
-			title: "员工精选",
-			text: "每天1款内部价",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/myhw.png"),
-			title: "每月好物",
-			text: "10月必买清单",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/hwds.png"),
-			title: "好物大赏",
-			text: "官方排名发布",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/sd.png"),
-			title: "晒单",
-			text: "入选就有红包",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/mxsp.png"),
-			title: "明星商品",
-			text: "百万粉丝之选",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/zxj.png"),
-			title: "甄选家",
-			text: "新品0元使用",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/xgzn.png"),
-			title: "选购指南",
-			text: "破解选择困难",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/prohy.gif"),
-			title: "Pro会员",
-			text: "每周专享福利",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/hcyjs.png"),
-			title: "好吃研究所",
-			text: "时令美食抢先尝",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/home.png"),
-			title: "HOME",
-			text: "实景家居专栏",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/mrcd.png"),
-			title: "每日穿搭",
-			text: "时尚买手力推",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/tsxl.png"),
-			title: "特色系列",
-			text: "发现格调好货",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/zgfwz.png"),
-			title: "中国风物志",
-			text: "羊绒牧歌",
-		},
-		{
-			img: require("./dataimg/worthimg/bannerimg/gckct.png"),
-			title: "工厂考察团",
-			text: "探访严选工厂",
-		},
+		[
+			{
+				img: require("./dataimg/worthimg/bannerimg/czzq.gif"),
+				title: "超值专区",
+				text: "新定价直降",
+			},
+			{
+				img: require("./dataimg/worthimg/bannerimg/yjhd.png"),
+				title: "有奖互动",
+				text: "购物全天天赚",
+			},
+		],
+		[
+			{
+				img: require("./dataimg/worthimg/bannerimg/ygjx.png"),
+				title: "员工精选",
+				text: "每天1款内部价",
+			},
+			{
+				img: require("./dataimg/worthimg/bannerimg/myhw.png"),
+				title: "每月好物",
+				text: "10月必买清单",
+			},
+		],
+		[
+			{
+				img: require("./dataimg/worthimg/bannerimg/hwds.png"),
+				title: "好物大赏",
+				text: "官方排名发布",
+			},
+			{
+				img: require("./dataimg/worthimg/bannerimg/sd.png"),
+				title: "晒单",
+				text: "入选就有红包",
+			},
+		],
+		[
+			{
+				img: require("./dataimg/worthimg/bannerimg/mxsp.png"),
+				title: "明星商品",
+				text: "百万粉丝之选",
+			},
+			{
+				img: require("./dataimg/worthimg/bannerimg/zxj.png"),
+				title: "甄选家",
+				text: "新品0元使用",
+			},
+		],
+		[
+			{
+				img: require("./dataimg/worthimg/bannerimg/xgzn.png"),
+				title: "选购指南",
+				text: "破解选择困难",
+			},
+			{
+				img: require("./dataimg/worthimg/bannerimg/prohy.gif"),
+				title: "Pro会员",
+				text: "每周专享福利",
+			},
+		],
+		[
+			{
+				img: require("./dataimg/worthimg/bannerimg/hcyjs.png"),
+				title: "好吃研究所",
+				text: "时令美食抢先尝",
+			},
+			{
+				img: require("./dataimg/worthimg/bannerimg/home.png"),
+				title: "HOME",
+				text: "实景家居专栏",
+			},
+		],
+		[
+			{
+				img: require("./dataimg/worthimg/bannerimg/mrcd.png"),
+				title: "每日穿搭",
+				text: "时尚买手力推",
+			},
+			{
+				img: require("./dataimg/worthimg/bannerimg/tsxl.png"),
+				title: "特色系列",
+				text: "发现格调好货",
+			},
+		],
+		[
+			{
+				img: require("./dataimg/worthimg/bannerimg/zgfwz.png"),
+				title: "中国风物志",
+				text: "羊绒牧歌",
+			},
+			{
+				img: require("./dataimg/worthimg/bannerimg/gckct.png"),
+				title: "工厂考察团",
+				text: "探访严选工厂",
+			},
+		],
 	],
 	display: [{}],
 };
-export default Category;
+export default { Category, worth };

@@ -23,7 +23,7 @@
 <script>
 import banner from "../../../components/banner/banner";
 import categoryContentItem from "./categoryContentItem";
-import datalistAll from "../../../DATA/data";
+import Category from "../../../DATA/data";
 export default {
     name: "CategoryContentList",
     props: ["id"],
@@ -39,7 +39,7 @@ export default {
         categoryContentItem,
     },
     created() {
-        this.datalist = datalistAll;
+        this.datalist = Category.Category;
     },
 };
 </script>
