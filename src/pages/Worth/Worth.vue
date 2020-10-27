@@ -13,13 +13,28 @@
         </div>
         <div class="worthbottom">
             <div>
-                <WorthItem />
+                <WorthItem
+                    v-for="(leftItem, leftIndex) in listLeft"
+                    :key="leftIndex"
+                    :listImg="leftItem.showImg"
+                    :listText="leftItem.text"
+                    :headImg="leftItem.headImg"
+                    :headName="leftItem.name"
+                    :watchNumber="leftItem.watchNumber"
+                />
             </div>
             <div>
-                <WorthItem />
+                <WorthItem
+                    v-for="(rightItem, rightIndex) in listRight"
+                    :key="rightIndex"
+                    :listImg="rightItem.showImg"
+                    :listText="rightItem.text"
+                    :headImg="rightItem.headImg"
+                    :headName="rightItem.name"
+                    :watchNumber="rightItem.watchNumber"
+                />
             </div>
         </div>
-        <div class="aaaaaa"></div>
     </div>
 </template>
 <script>
@@ -27,11 +42,16 @@ import heading from "../../components/Heading/Heading";
 import generalNav from "../../components/Heading/generalNav";
 import worthBanner from "./Worth/WorthBanner";
 import WorthItem from "./Worth/WorthItem";
+import worth from "../../DATA/data";
 export default {
     name: "worth",
     data() {
         return {
-            list: [],
+            listLeft: [],
+            listRight: [],
+            pendding: true,
+            huhuan: true,
+            worthlist: [],
         };
     },
     components: {
@@ -40,11 +60,41 @@ export default {
         worthBanner,
         WorthItem,
     },
+    methods: {
+        _onscroll() {
+            let pages = document.documentElement || document.body;
+            let ch = pages.clientHeight;
+            let sh = pages.scrollHeight;
+            let st = pages.scrollTop;
+            if (sh - ch - st < 400 && this.pendding) {
+                this.pendding = false;
+                setTimeout(() => {
+                    if (this.huhuan) {
+                        this.listLeft.push(...this.worthlist[1]);
+                        this.listRight.push(...this.worthlist[0]);
+                        this.huhuan = false;
+                    } else {
+                        this.listLeft.push(...this.worthlist[0]);
+                        this.listRight.push(...this.worthlist[1]);
+                        this.huhuan = true;
+                    }
+
+                    this.pendding = true;
+                }, 500);
+            }
+        },
+    },
+    created() {
+        this.worthlist.push(...JSON.parse(JSON.stringify(worth.worth.display)));
+        this.listLeft.push(...this.worthlist[0]);
+        this.listRight.push(...this.worthlist[1]);
+    },
+    mounted() {
+        document.addEventListener("scroll", this._onscroll);
+    },
 };
 </script>
 <style lang="stylus" scoped>
-.aaaaaa
-    height 500px
 .worthtop
     width 100%
     position relative

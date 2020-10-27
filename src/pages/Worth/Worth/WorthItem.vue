@@ -1,33 +1,59 @@
 <template>
     <div class="pullDownList">
         <div class="listImg">
-            <img
-                src="../../../DATA/dataimg/worthimg/listimg/5ab5bdae90ed9e1466d41d005bd3d633.jpg"
-                alt=""
-            />
+            <img :src="listImg" alt="" />
         </div>
-        <div class="listText">今日热销,超级宝贝,年度爆款！一篇搜罗~</div>
+        <div class="listText">{{ listText }}</div>
         <div class="listUser">
             <div class="screenName">
-                <img
-                    src="../../../DATA/dataimg/worthimg/listimg/3769578a6595d8e3c61d1186123141e0.png"
-                    alt=""
-                />
-                <div>好物大赏</div>
+                <img :src="headImg" alt="" />
+                <div>{{ headName }}</div>
             </div>
             <div class="viewNumber">
-                <img
-                    src="../../../DATA/dataimg/worthimg/listimg/5097bc5f2e1eb15f2a32b56895db073a.png"
-                    alt=""
-                />
-                <div>9435</div>
+                <img :src="imgtu" alt="" />
+                <div>{{ watch }}</div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-export default {};
+export default {
+    name: "worthItem",
+    props: {
+        listImg: {
+            type: String,
+            default: require("../../../DATA/dataimg/worthimg/listimg/1 (2).png"),
+        },
+        listText: {
+            type: String,
+            default: "",
+        },
+        headImg: {
+            type: String,
+            default: require("../../../DATA/dataimg/worthimg/listimg/1 (2).png"),
+        },
+        headName: {
+            type: String,
+            default: "",
+        },
+        imgtu: {
+            type: String,
+            default: require("../../../DATA/dataimg/worthimg/listimg/1 (4).png"),
+        },
+        watchNumber: {
+            type: Number,
+            default: 0,
+        },
+    },
+    computed: {
+        watch() {
+            return this.watchNumber >= 10000
+                ? Math.round(this.watchNumber / 1000) + "K"
+                : this.watchNumber;
+        },
+    },
+};
 </script>
 
 <style lang="stylus" scoped>
