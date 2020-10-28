@@ -1,7 +1,7 @@
 <template>
     <div class="box">
         <router-view></router-view>
-        <FooterNav />
+        <FooterNav v-show="true" />
     </div>
 </template>
 
