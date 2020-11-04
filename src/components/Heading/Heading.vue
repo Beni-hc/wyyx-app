@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="pad" :style="{ height: heightChange + 'px' }"></div>
-        <div class="headPosition">
+        <div :class="{ headPosition: !!heightNotActiv }">
             <div class="topApp" v-show="showApp" @touchstart="clickApp">
                 <div>
                     <div
@@ -43,7 +43,6 @@ export default {
         _headHeight() {
             this.heightNotActiv = this.$refs.headHeight.clientHeight;
             this.heightActiv = this.$refs.headHeight.parentElement.clientHeight;
-            this.$emit("changeHeight", this.heightNotActiv, this.heightActiv);
         },
     },
     computed: {
