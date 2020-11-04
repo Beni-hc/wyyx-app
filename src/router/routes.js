@@ -39,6 +39,7 @@ export default [
 		path: "/personalInfo",
 		component: PersonalInfo,
 	},
+	//重定向
 	{
 		path: "/",
 		redirect: "/home",

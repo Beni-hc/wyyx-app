@@ -43,6 +43,7 @@ export default {
         _headHeight() {
             this.heightNotActiv = this.$refs.headHeight.clientHeight;
             this.heightActiv = this.$refs.headHeight.parentElement.clientHeight;
+            this.$emit("changeHeight", this.heightNotActiv, this.heightActiv);
         },
     },
     computed: {

@@ -1,7 +1,7 @@
 <template>
     <div class="box">
         <router-view></router-view>
-        <FooterNav v-show="true" />
+        <FooterNav v-show="false" />
     </div>
 </template>
 
@@ -25,6 +25,11 @@ export default {
 }
 body {
     font-size: 12px;
+}
+html,
+body {
+    width: 100%;
+    height: 100%;
 }
 a {
     text-decoration: none;
