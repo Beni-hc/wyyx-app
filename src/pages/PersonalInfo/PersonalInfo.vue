@@ -1,5 +1,9 @@
 <template>
-    <div class="info" :style="{ height: heightChange }">
+    <div
+        class="info"
+        :class="{ loginInfo: !isShowMain }"
+        :style="{ height: heightChange }"
+    >
         <heading>
             <generalNav
                 :leftWidth="52"
@@ -10,17 +14,17 @@
                 ><i class="headLogo"></i
             ></generalNav>
         </heading>
-        <div :class="false ? 'infoHomePageLogo' : 'logInPageLogo'">
+        <div :class="isShowMain ? 'infoHomePageLogo' : 'logInPageLogo'">
             <img src="./img/wyyx_1.png" alt="" />
         </div>
-        <!-- 主界面 -->
-        <div v-show="false">
+        <!-- 选择登录方式界面 -->
+        <div v-show="isShowMain">
             <div class="infoHomePageButton">
-                <div>
+                <div @touchstart="phoneLogin">
                     <i class="iconfont icon-shouji1"></i>
                     <span>手机号快捷登录</span>
                 </div>
-                <div>
+                <div @touchstart="emailLogin">
                     <i class="iconfont icon-youjian1"></i>
                     <span>邮箱账号登录</span>
                 </div>
@@ -40,41 +44,49 @@
                 </div>
             </div>
         </div>
-        <!-- 登陆界面,手机验证码登录 -->
-        <div v-show="false" class="authCodeBox">
+        <!-- 登陆界面,手机验证码，密码和邮箱登录 -->
+        <div v-show="!isShowMain" class="logInBox" :class="logInBoxClass">
             <form action="">
                 <div>
-                    <div class="authCodePhoneNumber">
+                    <div class="logInNumber" :class="logInNumberClass">
                         <input
-                            type="tel"
-                            maxlength="11"
-                            spellcheck="false"
-                            tabindex="1"
-                            autocomplete="off"
-                            name="email"
-                            placeholder="请输入手机号"
+                            :type="logInData.loginId.type"
+                            :maxlength="logInData.loginId.maxlength"
+                            :spellcheck="logInData.loginId.spellcheck"
+                            :tabindex="logInData.loginId.tabindex"
+                            :autocomplete="logInData.loginId.autocomplete"
+                            :name="logInData.loginId.name"
+                            :placeholder="logInData.loginId.placeholder"
                         />
                         <div class="iconfont icon-chahao"></div>
                     </div>
-                    <div class="authCodeNumber">
+                    <div class="logInPwd" :class="logInPwdClass">
                         <input
-                            type="tel"
-                            maxlength="6"
-                            spellcheck="false"
-                            tabindex="5"
-                            autocomplete="off"
-                            name="email3"
-                            placeholder="请输入短信验证码"
+                            :type="logInData.loginPwd.type"
+                            :maxlength="logInData.loginPwd.maxlength"
+                            :spellcheck="logInData.loginPwd.spellcheck"
+                            :tabindex="logInData.loginPwd.tabindex"
+                            :autocomplete="logInData.loginPwd.autocomplete"
+                            :name="logInData.loginPwd.name"
+                            :placeholder="logInData.loginPwd.placeholder"
                         />
-                        <div>获取验证码</div>
+                        <div v-show="loginMethod === 0">获取验证码</div>
+                        <div
+                            v-show="loginMethod === 1 || loginMethod === 2"
+                            class="iconfont icon-chahao"
+                        ></div>
                     </div>
                     <div>
-                        <div class="authCodeText">
-                            <div>遇到问题？</div>
-                            <div>使用密码验证登录</div>
+                        <div class="logInText" :class="logInTextClass">
+                            <div>{{ logInData.loginText.leftText }}</div>
+                            <div @touchstart="logInTextRight">
+                                {{ logInData.loginText.rightText }}
+                            </div>
                         </div>
-                        <div class="authCodeButton">登录</div>
-                        <div class="authCodeClause">
+                        <div class="logInButton" :class="logInButtonClass">
+                            登录
+                        </div>
+                        <div v-show="loginMethod === 0" class="authCodeClause">
                             <div>
                                 <input
                                     type="checkbox"
@@ -97,91 +109,10 @@
                 </div>
             </form>
             <div class="logInPageRedirect">
-                <span>其他登录方式</span>
-                <i class="iconfont icon-iconfontyoujiantou-copy"></i>
-            </div>
-        </div>
-        <!-- 手机密码登录页 -->
-        <div v-show="false" class="pwdbox">
-            <form action="">
-                <div>
-                    <div class="pwdPhoneNumber">
-                        <input
-                            type="tel"
-                            maxlength="11"
-                            spellcheck="false"
-                            tabindex="1"
-                            autocomplete="off"
-                            name="email"
-                            placeholder="请输入手机号"
-                        />
-                        <div class="iconfont icon-chahao"></div>
-                    </div>
-                    <div class="pwdNumber">
-                        <input
-                            type="password"
-                            maxlength="6"
-                            spellcheck="false"
-                            tabindex="5"
-                            autocomplete="off"
-                            name="pwd"
-                            placeholder="请输入密码"
-                        />
-                        <div class="iconfont icon-chahao"></div>
-                    </div>
-                    <div>
-                        <div class="pwdText">
-                            <div>忘记密码？</div>
-                            <div>短信快捷登录</div>
-                        </div>
-                        <div class="pwdButton">登录</div>
-                    </div>
+                <div @touchstart="logInPageRedirect">
+                    <span>其他登录方式</span>
+                    <i class="iconfont icon-iconfontyoujiantou-copy"></i>
                 </div>
-            </form>
-            <div class="logInPageRedirect">
-                <span>其他登录方式</span>
-                <i class="iconfont icon-iconfontyoujiantou-copy"></i>
-            </div>
-        </div>
-        <!-- 邮箱账号登录 -->
-        <div class="emailBox">
-            <form action="">
-                <div>
-                    <div class="emailAddress">
-                        <input
-                            type="email"
-                            spellcheck="false"
-                            tabindex="1"
-                            autocomplete="off"
-                            name="email"
-                            placeholder="邮箱帐号"
-                        />
-                        <div class="iconfont icon-chahao"></div>
-                    </div>
-                    <div class="emailPwd">
-                        <input
-                            type="password"
-                            maxlength="50"
-                            spellcheck="false"
-                            tabindex="2"
-                            autocomplete="off"
-                            name="password"
-                            placeholder="密码"
-                        />
-                        <div class="iconfont icon-chahao"></div>
-                    </div>
-                    <div>
-                        <div class="emailText">
-                            <div>注册帐号</div>
-                            <div>忘记密码</div>
-                        </div>
-                        <div class="emailButton">登录</div>
-                    </div>
-                </div>
-            </form>
-            <div class="logInPageRedirect">
-                <span>其他登录方式</span>
-                <i class="iconfont icon-iconfontyoujiantou-copy"></i>
             </div>
         </div>
     </div>
@@ -194,6 +125,9 @@ export default {
     data() {
         return {
             pageHeight: 0,
+            isShowMain: true,
+            //0手机验证码登录，1手机密码登录，2邮箱登录
+            loginMethod: 0,
         };
     },
     methods: {
@@ -205,10 +139,131 @@ export default {
                 ? (this.pageHeight = clientHeight)
                 : (this.pageHeight = scrollHeight);
         },
+        phoneLogin() {
+            this.isShowMain = false;
+            this.loginMethod = 0;
+        },
+        emailLogin() {
+            this.isShowMain = false;
+            this.loginMethod = 2;
+        },
+        logInPageRedirect() {
+            this.isShowMain = true;
+            this.loginMethod = 0;
+        },
+        logInTextRight() {
+            if (this.loginMethod === 0) return (this.loginMethod = 1);
+            if (this.loginMethod === 1) return (this.loginMethod = 0);
+            if (this.loginMethod === 2) return null;
+        },
     },
     computed: {
         heightChange() {
             return !!this.pageHeight ? this.pageHeight + "px" : "100%";
+        },
+        //0手机验证码登录，1手机密码登录，2邮箱登录
+        logInBoxClass() {
+            if (this.loginMethod === 0) return "authCodeBox";
+            if (this.loginMethod === 1 || this.loginMethod === 2)
+                return "phoneEmailBox";
+        },
+        logInNumberClass() {
+            if (this.loginMethod === 0) return "authCodePhoneNumber";
+            if (this.loginMethod === 1 || this.loginMethod === 2)
+                return "phoneEmailInput";
+        },
+        logInPwdClass() {
+            if (this.loginMethod === 0) return "authCodeNumber";
+            if (this.loginMethod === 1 || this.loginMethod === 2)
+                return "phoneEmailInput";
+        },
+        logInTextClass() {
+            if (this.loginMethod === 0) return "authCodeText";
+            if (this.loginMethod === 1) return "pwdText";
+            if (this.loginMethod === 2) return "emailText";
+        },
+        logInButtonClass() {
+            if (this.loginMethod === 0) return "authCodeButton";
+            if (this.loginMethod === 1) return "pwdButton";
+            if (this.loginMethod === 2) return "emailButton";
+        },
+        //动态添加input属性及显示的文本
+        logInData() {
+            const PhoneCode = {
+                loginId: {
+                    type: "tel",
+                    maxlength: "11",
+                    spellcheck: "false",
+                    tabindex: "1",
+                    autocomplete: "off",
+                    name: "phone",
+                    placeholder: "请输入手机号",
+                },
+                loginPwd: {
+                    type: "tel",
+                    maxlength: "6",
+                    spellcheck: "false",
+                    tabindex: "5",
+                    autocomplete: "off",
+                    name: "phonecode",
+                    placeholder: "请输入短信验证码",
+                },
+                loginText: {
+                    leftText: "遇到问题？",
+                    rightText: "使用密码验证登录",
+                },
+            };
+            const PhonePwd = {
+                loginId: {
+                    type: "tel",
+                    maxlength: "11",
+                    spellcheck: "false",
+                    tabindex: "1",
+                    autocomplete: "off",
+                    name: "phone",
+                    placeholder: "请输入手机号",
+                },
+                loginPwd: {
+                    type: "password",
+                    maxlength: "",
+                    spellcheck: "false",
+                    tabindex: "2",
+                    autocomplete: "off",
+                    name: "phonepwd",
+                    placeholder: "请输入密码",
+                },
+                loginText: {
+                    leftText: "忘记密码？",
+                    rightText: "短信快捷登录",
+                },
+            };
+            const emailPwd = {
+                loginId: {
+                    type: "email",
+                    maxlength: "",
+                    spellcheck: "false",
+                    tabindex: "1",
+                    autocomplete: "off",
+                    name: "email",
+                    placeholder: "邮箱帐号",
+                },
+                loginPwd: {
+                    type: "password",
+                    maxlength: "50",
+                    spellcheck: "false",
+                    tabindex: "2",
+                    autocomplete: "off",
+                    name: "emailpwd",
+                    placeholder: "密码",
+                },
+                loginText: {
+                    leftText: "注册帐号",
+                    rightText: "忘记密码",
+                },
+            };
+            if (this.loginMethod === 0) return PhoneCode;
+            if (this.loginMethod === 1) return PhonePwd;
+            if (this.loginMethod === 2) return emailPwd;
         },
     },
     mounted() {
@@ -227,6 +282,8 @@ export default {
     top 0px
     left 0px
     background-color #f2f5f4
+.loginInfo
+    background-color #fff !important
 .headLogo
     display block
     width 172px
@@ -235,18 +292,17 @@ export default {
     background-repeat no-repeat
     background-size 173px
     background-position 0px -125px
-// 主界面
+// 选择登录方式界面
 .infoHomePageLogo
     width 100%
-    height 482px
+    height 486px
     img
-        width 272px
-        height 96px
-        padding 3px 2px
+        width 268px
+        height 90px
         position relative
         top 50%
         left 50%
-        transform translate(-50%, -85%)
+        transform translate(-50%, -89%)
 .infoHomePageButton
     width 670px
     height 300px
@@ -269,7 +325,7 @@ export default {
             color #fff
         &:last-child
             color #dd1a21
-            border 1px solid #dd1a21
+            border 1px solid #eaa3a5
 .infoHomePageFooter
     width 100%
     height 40px
@@ -292,23 +348,21 @@ export default {
             border-right 1px solid #7f7f7f
         &:last-child
             border-left 1px solid #7f7f7f
-// 登录界面LOGO
+// 登录界面LOGO及公共样式
 .logInPageLogo
     width 100%
-    height 152px
-    padding-top 62px
+    height 150px
+    padding-top 60px
     background-color #fff
     img
         display block
         width 267px
         height 100%
         margin 0 auto
-// 手机验证码登录页
-.authCodeBox
+.logInBox
     width 670px
     margin 0 auto
-    padding-top 58px
-.authCodePhoneNumber, .authCodeNumber
+.logInNumber, .logInPwd
     width 100%
     position relative
     top 0
@@ -332,6 +386,31 @@ export default {
         height 1px
         background-color #d9d9d9
         transform scale(0.5)
+.logInText
+    width 100%
+    position relative
+    top 0px
+    left 0px
+    div
+        height 45px
+        line-height 45px
+        position absolute
+        top 50%
+        &:first-child
+            left 0px
+        &:last-child
+            right 0px
+.logInButton
+    width 100%
+    height 92px
+    font-size 28px
+    background-color #dd1a21
+    text-align center
+    line-height 92px
+    border-radius 6px
+// 手机验证码登录页
+.authCodeBox
+    padding-top 58px
 .authCodePhoneNumber
     input
         width 590px
@@ -357,35 +436,21 @@ export default {
         right 15px
         font-size 28px
         line-height 53px
-        border-radius 6px
-        border 1px solid #7f7f7f
+        border-radius 4px
+        border 1px solid #cfcfcf
 .authCodeText
-    width 100%
     height 116px
-    position relative
-    top 0px
-    left 0px
     div
-        position absolute
         font-size 28px
-        top 50%
         &:first-child
-            left 0px
             color #7f7f7f
             transform translateY(-35%)
         &:last-child
-            right 0px
             color #333
-            transform translateY(-55%)
+            transform translateY(-50%)
 .authCodeButton
-    width 100%
-    height 92px
-    font-size 28px
-    background-color #dd1a21
     color #fff
-    text-align center
-    line-height 92px
-    border-radius 6px
+// 服务条款栏
 .authCodeClause
     height 68px
     display flex
@@ -425,145 +490,57 @@ export default {
     color #c3c3c3
     text-align center
     line-height 34px
-// 手机密码登录页
-.pwdbox
-    width 670px
-    margin 0 auto
-    padding-top 152px
-.pwdPhoneNumber, .pwdNumber
-    width 100%
-    position relative
-    top 0
-    left 0
+// 手机密码登录和邮箱登录公共样式
+.phoneEmailBox
+    padding-top 154px
+.phoneEmailInput
     input
         width 590px
-        height 42px
-        font-size 28px
-        line-height 42px
-        border 0
-        color #333
         margin 28px 0 23px
     div
         width 63px
         height 63px
-        position absolute
-        top 50%
         right 0
         line-height 63px
         font-size 26px
         color #ccc
-        text-align center
         transform translateY(-45%)
-    &::after
-        content ''
-        position absolute
-        left -50%
-        bottom 0
-        width 200%
-        height 1px
-        background-color #d9d9d9
-        transform scale(0.5)
+// 手机密码登录页
 .pwdText
-    width 100%
     height 118px
-    position relative
-    top 0px
-    left 0px
     div
-        position absolute
         font-size 28px
-        top 50%
         &:first-child
-            left 0px
             color #7f7f7f
             transform translateY(-35%)
         &:last-child
-            right 0px
             color #333
-            transform translateY(-50%)
+            transform translateY(-45%)
 .pwdButton
-    width 100%
-    height 92px
-    font-size 28px
-    background-color #dd1a21
     color #fff
-    text-align center
-    line-height 92px
-    border-radius 6px
     margin-bottom 66px
 // 邮箱账号登录
-.emailBox
-    width 670px
-    margin 0 auto
-    padding-top 152px
-.emailAddress, .emailPwd
-    width 100%
-    position relative
-    top 0
-    left 0
-    input
-        width 590px
-        height 42px
-        font-size 28px
-        line-height 42px
-        border 0
-        color #333
-        margin 28px 0 23px
-    div
-        width 63px
-        height 63px
-        position absolute
-        top 50%
-        right 0
-        line-height 63px
-        font-size 26px
-        color #ccc
-        text-align center
-        transform translateY(-45%)
-    &::after
-        content ''
-        position absolute
-        left -50%
-        bottom 0
-        width 200%
-        height 1px
-        background-color #d9d9d9
-        transform scale(0.5)
 .emailText
-    width 100%
     height 118px
-    position relative
-    top 0px
-    left 0px
     div
-        position absolute
         font-size 26px
-        top 50%
         color #7f7f7f
-        transform translateY(-55%)
-        &:first-child
-            left 0px
-        &:last-child
-            right 0px
+        transform translateY(-50%)
 .emailButton
-    width 100%
-    height 92px
-    font-size 28px
-    background-color #dd1a21
     color rgba(255, 255, 255, 0.5)
-    text-align center
-    line-height 92px
-    border-radius 6px
     margin-bottom 66px
 // 登录界面重定向
 .logInPageRedirect
     width 100%
-    text-align center
-    span
-        font-size 28px
-        color #333
-    i
-        font-size 25px
-        margin-left 5px
-        color #7f7f7f
+    div
+        width 250px
+        margin 0 auto
+        text-align center
+        span
+            font-size 28px
+            color #333
+        i
+            font-size 25px
+            margin-left 5px
+            color #7f7f7f
 </style>

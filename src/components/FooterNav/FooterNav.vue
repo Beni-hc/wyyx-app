@@ -1,5 +1,5 @@
 <template>
-    <div class="footer-fixed">
+    <div v-show="isShow" class="footer-fixed">
         <div class="homeFooter">
             <div
                 v-for="(fooList, index) in footerList"
@@ -37,10 +37,12 @@
 </template>
 <script>
 export default {
+    name: "FooterNav",
     data() {
         return {
             isDot: 2,
             isRed: 0,
+            isShow: true,
             path: [
                 "/home",
                 "/category",
@@ -70,8 +72,27 @@ export default {
                 this.$router.push(this.path[index]);
             }
         },
+        _routeIndex() {
+            const path = this.$route.matched[0].path;
+            const index = this.path.findIndex((index) => index === path);
+            if (index !== this.isRed) this.isRed = index;
+            return index;
+        },
     },
-    mounted() {},
+    mounted() {
+        this._routeIndex();
+    },
+    watch: {
+        $route() {
+            const index = this._routeIndex();
+            if (index !== 4 && !this.isShow) {
+                this.isShow = true;
+            }
+            if (index === 4 && this.isShow) {
+                this.isShow = false;
+            }
+        },
+    },
 };
 </script>
 <style lang="stylus" rel='stylesheet/stylus' scoped>
