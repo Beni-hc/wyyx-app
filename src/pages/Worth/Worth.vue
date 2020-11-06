@@ -91,6 +91,9 @@ export default {
     },
     mounted() {
         document.addEventListener("scroll", this._onscroll);
+        this.$once("hook:beforeDestroy", function () {
+            document.removeEventListener("scroll", this._onscroll);
+        });
     },
 };
 </script>

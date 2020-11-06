@@ -1,6 +1,6 @@
 <template>
     <div class="general" :style="{ height: boxHeight / 75 + 'rem' }">
-        <div class="generalLeft">
+        <div @touchstart='clickHouse' class="generalLeft">
             <img
                 :style="{
                     width: leftWidth / 75 + 'rem',
@@ -56,6 +56,11 @@ export default {
             default: 100,
         },
     },
+    methods:{
+        clickHouse(){
+            this.$emit('clickHouse')
+        }
+    }
 };
 </script>
 <style lang="stylus" scoped>

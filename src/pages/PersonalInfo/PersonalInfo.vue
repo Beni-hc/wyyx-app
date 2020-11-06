@@ -11,6 +11,7 @@
                 :rightWidth="47"
                 :rightHeight="47"
                 :boxHeight="84"
+                @clickHouse="clickHouse"
                 ><i class="headLogo"></i
             ></generalNav>
         </heading>
@@ -155,6 +156,10 @@ export default {
             if (this.loginMethod === 0) return (this.loginMethod = 1);
             if (this.loginMethod === 1) return (this.loginMethod = 0);
             if (this.loginMethod === 2) return null;
+        },
+        //跳转主页
+        clickHouse() {
+            this.$router.push("/home");
         },
     },
     computed: {

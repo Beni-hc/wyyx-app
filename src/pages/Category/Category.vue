@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Heading @clickApp="offApp">
+        <Heading>
             <div class="categoryHead">
                 <searchBox :text="categoryData.search" />
             </div>
@@ -35,7 +35,6 @@ export default {
     data() {
         return {
             categoryData: {},
-            isShow: true,
         };
     },
     methods: {
@@ -47,6 +46,9 @@ export default {
                         scrollX: false,
                         scrollY: true,
                     });
+                    this.$once("hook:beforeDestroy", function () {
+                        this.scroll.destroy();
+                    });
                 } else {
                     this.scroll.refresh();
                     this.scroll.scrollTo(0, 0);
@@ -57,9 +59,6 @@ export default {
             this.$router.replace({
                 path: `/category/categorycontentlist/${id}`,
             });
-        },
-        offApp(isShow) {
-            this.isShow = isShow;
         },
     },
     computed: {
@@ -74,9 +73,11 @@ export default {
 
         this.categoryData = Category.Category;
         let id = this.categoryData.title[0].id;
-        this.$router.replace({
-            path: `/category/categorycontentlist/${id}`,
-        });
+        if (this.$route.path !== `/category/categorycontentlist/${id}`) {
+            this.$router.replace({
+                path: `/category/categorycontentlist/${id}`,
+            });
+        }
     },
     components: {
         Heading,

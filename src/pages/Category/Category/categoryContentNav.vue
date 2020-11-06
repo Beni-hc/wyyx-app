@@ -43,13 +43,12 @@ export default {
     data() {
         return {
             isActivColor: 0,
-            id: 0,
         };
     },
     methods: {
         activColor(id, index) {
             this.isActivColor = index;
-            this.id = id;
+            this.$emit("onClick", id);
         },
         //初始化滚动
         _initScroll() {
@@ -61,6 +60,9 @@ export default {
                         scrollX: false,
                         scrollY: true,
                     });
+                    this.$once("hook:beforeDestroy", function () {
+                        this.scroll.destroy();
+                    });
                 } else {
                     this.scroll.refresh();
                 }
@@ -70,11 +72,7 @@ export default {
     mounted() {
         this._initScroll();
     },
-    watch: {
-        id(val) {
-            this.$emit("onClick", val);
-        },
-    },
+    watch: {},
 };
 </script>
 <style lang="stylus" scoped>

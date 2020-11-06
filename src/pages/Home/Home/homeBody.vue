@@ -24,6 +24,10 @@ import bodylist4 from "./homebody/bodyList4";
 import promotion from "./homebody/promotion";
 import tagend from "./homebody/tagend";
 export default {
+    name: "homeBody",
+    data() {
+        return {};
+    },
     components: {
         banner,
         classify,

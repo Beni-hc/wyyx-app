@@ -3,7 +3,7 @@
         <div class="swiper-wrapper">
             <div
                 class="swiper-slide"
-                v-for="(banner, index) in bannerlist"
+                v-for="(banner, index) in bannerList"
                 :key="index"
             >
                 <img :src="banner" alt="" class="imgStyle" />
@@ -18,7 +18,7 @@ import "swiper/css/swiper.css";
 export default {
     name: "banenr",
     props: {
-        bannerlist: {
+        bannerList: {
             type: Array,
             default: function () {
                 return [
@@ -56,18 +56,16 @@ export default {
                 },
                 autoplay: true, //自动滑动
                 loop: true, //无缝滚动
-                on: {
-                    click: function () {
-                        //vm分发点击
-                        this.vmToSwiper.$emit("bannerIndex", this.realIndex);
-                    },
-                },
             },
         };
     },
+    methods: {
+        _clickEmit() {
+            this.$emit("bannerIndex", this.mySwiper.realIndex);
+        },
+    },
     mounted() {
-        //vm挂载到swiper上
-        this.mySwiper.vmToSwiper = this;
+        this.mySwiper.on("click", this._clickEmit);
     },
 };
 </script>

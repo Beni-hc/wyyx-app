@@ -109,6 +109,9 @@ export default {
                         scrollX: true,
                         scrollY: false,
                     });
+                    this.$once("hook:beforeDestroy", function () {
+                        this.scroll.destroy();
+                    });
                 } else {
                     this.scroll.refresh();
                 }

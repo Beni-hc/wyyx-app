@@ -11,7 +11,7 @@
             </div>
             <div class="viewNumber">
                 <img :src="imgtu" alt="" />
-                <div>{{ watch }}</div>
+                <div>{{ showWatch }}</div>
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@ export default {
         },
     },
     computed: {
-        watch() {
+        showWatch() {
             return this.watchNumber >= 10000
                 ? Math.round(this.watchNumber / 1000) + "K"
                 : this.watchNumber;

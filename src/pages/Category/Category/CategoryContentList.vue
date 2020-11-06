@@ -6,7 +6,7 @@
                 :src="datalist.content[id].img"
                 alt=""
             />
-            <banner v-else :bannerlist="datalist.content[id].img" />
+            <banner v-else :bannerList="datalist.content[id].img" />
         </div>
         <div class="categoryrightBottom">
             <categoryContentItem

@@ -4,10 +4,7 @@
         <div :class="{ headPosition: !!heightNotActiv }">
             <div class="topApp" v-show="showApp" @touchstart="clickApp">
                 <div>
-                    <div
-                        class="iconfont icon-label-lt"
-                        @touchstart="showApp = false"
-                    >
+                    <div class="iconfont icon-label-lt" @touchstart="hideApp">
                         <i class="iconfont icon-svg--copy"></i>
                     </div>
                 </div>
@@ -33,9 +30,11 @@ export default {
     },
     methods: {
         _activApp() {
-            let scrollTop =
+            const scrollTop =
                 document.documentElement.scrollTop || document.body.scrollTop;
-            this.showApp = !!!scrollTop;
+            if (this.showApp === !!!!scrollTop) {
+                this.showApp = !!!scrollTop;
+            }
         },
         clickApp() {
             this.$emit("clickApp", this.showApp);
@@ -43,6 +42,10 @@ export default {
         _headHeight() {
             this.heightNotActiv = this.$refs.headHeight.clientHeight;
             this.heightActiv = this.$refs.headHeight.parentElement.clientHeight;
+        },
+        hideApp() {
+            this.showApp = false;
+            document.removeEventListener("scroll", this._activApp);
         },
     },
     computed: {
@@ -52,10 +55,10 @@ export default {
     },
     mounted() {
         document.addEventListener("scroll", this._activApp);
+        this.$once("hook:beforeDestroy", function () {
+            document.removeEventListener("scroll", this._activApp);
+        });
         this._headHeight();
-    },
-    beforeDestroy() {
-        document.removeEventListener("scroll", this.activApp);
     },
 };
 </script>
