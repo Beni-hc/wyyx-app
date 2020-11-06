@@ -76,7 +76,12 @@ export default {
             const path = this.$route.matched[0].path;
             const index = this.path.findIndex((index) => index === path);
             if (index !== this.isRed) this.isRed = index;
-            return index;
+            if (index !== 4 && !this.isShow) {
+                this.isShow = true;
+            }
+            if (index === 4 && this.isShow) {
+                this.isShow = false;
+            }
         },
     },
     mounted() {
@@ -84,13 +89,7 @@ export default {
     },
     watch: {
         $route() {
-            const index = this._routeIndex();
-            if (index !== 4 && !this.isShow) {
-                this.isShow = true;
-            }
-            if (index === 4 && this.isShow) {
-                this.isShow = false;
-            }
+            this._routeIndex();
         },
     },
 };

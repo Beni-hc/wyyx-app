@@ -58,8 +58,13 @@
                             :autocomplete="logInData.loginId.autocomplete"
                             :name="logInData.loginId.name"
                             :placeholder="logInData.loginId.placeholder"
+                            v-model="inputId"
                         />
-                        <div class="iconfont icon-chahao"></div>
+                        <div
+                            v-show="!!inputId"
+                            class="iconfont icon-chahao"
+                            @touchstart="clearInput(true)"
+                        ></div>
                     </div>
                     <div class="logInPwd" :class="logInPwdClass">
                         <input
@@ -70,12 +75,20 @@
                             :autocomplete="logInData.loginPwd.autocomplete"
                             :name="logInData.loginPwd.name"
                             :placeholder="logInData.loginPwd.placeholder"
+                            v-model="inputPwd"
                         />
                         <div v-show="loginMethod === 0">获取验证码</div>
                         <div
-                            v-show="loginMethod === 1 || loginMethod === 2"
+                            v-show="
+                                (loginMethod === 1 || loginMethod === 2) &&
+                                !!inputPwd
+                            "
                             class="iconfont icon-chahao"
+                            @touchstart="clearInput(false)"
                         ></div>
+                    </div>
+                    <div class="errorText">
+                        <div>手机号格式错误</div>
                     </div>
                     <div>
                         <div class="logInText" :class="logInTextClass">
@@ -93,6 +106,7 @@
                                     type="checkbox"
                                     name="inputCheckbox"
                                     id="inputCheckbox"
+                                    v-model="inputCheckBox"
                                 />
                                 <label
                                     for="inputCheckbox"
@@ -129,6 +143,9 @@ export default {
             isShowMain: true,
             //0手机验证码登录，1手机密码登录，2邮箱登录
             loginMethod: 0,
+            inputId: "",
+            inputPwd: "",
+            inputCheckBox: true,
         };
     },
     methods: {
@@ -160,6 +177,10 @@ export default {
         //跳转主页
         clickHouse() {
             this.$router.push("/home");
+        },
+        //true清空inputId,false清空inputPwd
+        clearInput(isClear) {
+            isClear ? (this.inputId = "") : (this.inputPwd = "");
         },
     },
     computed: {
@@ -297,14 +318,24 @@ export default {
     background-repeat no-repeat
     background-size 173px
     background-position 0px -125px
+.errorText
+    width 100%
+    margin-top 15px
+    margin-bottom 3px
+    div
+        font-size 24px
+        color #dd1a21
 // 选择登录方式界面
 .infoHomePageLogo
     width 100%
     height 486px
+    position relative
+    top 0
+    left 0
     img
         width 268px
         height 90px
-        position relative
+        position absolute
         top 50%
         left 50%
         transform translate(-50%, -89%)

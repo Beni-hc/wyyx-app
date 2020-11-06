@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Heading>
+        <Heading @hideApp="isShow = !isShow">
             <div class="categoryHead">
                 <searchBox :text="categoryData.search" />
             </div>
@@ -35,6 +35,7 @@ export default {
     data() {
         return {
             categoryData: {},
+            isShow: true,
         };
     },
     methods: {
@@ -97,19 +98,6 @@ export default {
     height 87px
     padding 16px 30px
     background-color #fff
-    position relative
-    top 0
-    left 0
-    &:after
-        content ''
-        position absolute
-        bottom 0
-        left 0
-        right 0
-        height 1px
-        background-color rgba(0, 0, 0, 0.15)
-        transform-origin 100% 50% 0
-        z-index 100
 .categoryBody
     width 100%
     background-color #fff

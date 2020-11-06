@@ -37,14 +37,16 @@ export default {
             }
         },
         clickApp() {
-            this.$emit("clickApp", this.showApp);
+            this.$emit("clickApp");
         },
         _headHeight() {
             this.heightNotActiv = this.$refs.headHeight.clientHeight;
             this.heightActiv = this.$refs.headHeight.parentElement.clientHeight;
         },
+        //点击X号
         hideApp() {
             this.showApp = false;
+            this.$emit("hideApp");
             document.removeEventListener("scroll", this._activApp);
         },
     },
@@ -72,6 +74,16 @@ export default {
     left 0
     background-color #fff
     z-index 20
+    &:after
+        content ''
+        position absolute
+        bottom 1px
+        left 0
+        right 0
+        height 1px
+        background-color #d9d9d9
+        z-index 100
+        transform scaleY(0.5)
 .topApp
     width 100%
     height 104px
