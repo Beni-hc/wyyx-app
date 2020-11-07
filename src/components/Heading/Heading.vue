@@ -77,13 +77,12 @@ export default {
     &:after
         content ''
         position absolute
-        bottom 1px
+        top 100%
         left 0
         right 0
         height 1px
         background-color #d9d9d9
         z-index 100
-        transform scaleY(0.5)
 .topApp
     width 100%
     height 104px

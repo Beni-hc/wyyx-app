@@ -49,7 +49,21 @@
         <div v-show="!isShowMain" class="logInBox" :class="logInBoxClass">
             <form action="">
                 <div>
+                    <!-- 帐号输入框 -->
                     <div class="logInNumber" :class="logInNumberClass">
+                        <!-- 邮箱后缀提示框 -->
+                        <ul
+                            v-if="loginMethod === 2 && !!emailBoxSuffix"
+                            class="emailSuffix"
+                        >
+                            <li
+                                v-for="itme in emailBoxSuffix"
+                                :key="itme"
+                                @touchstart="clickSuffix(itme)"
+                            >
+                                {{ itme }}
+                            </li>
+                        </ul>
                         <input
                             :type="logInData.loginId.type"
                             :maxlength="logInData.loginId.maxlength"
@@ -66,6 +80,7 @@
                             @touchstart="clearInput(true)"
                         ></div>
                     </div>
+                    <!-- 密码及验证码输入框 -->
                     <div class="logInPwd" :class="logInPwdClass">
                         <input
                             :type="logInData.loginPwd.type"
@@ -87,10 +102,12 @@
                             @touchstart="clearInput(false)"
                         ></div>
                     </div>
-                    <div class="errorText">
-                        <div>手机号格式错误</div>
+                    <!-- 输入错误提示框 -->
+                    <div v-show="!!errorTextBox" class="errorText">
+                        <div>{{ errorTextBox }}</div>
                     </div>
                     <div>
+                        <!-- 输入框与按钮之间的选项 -->
                         <div class="logInText" :class="logInTextClass">
                             <div>{{ logInData.loginText.leftText }}</div>
                             <div @touchstart="logInTextRight">
@@ -100,6 +117,7 @@
                         <div class="logInButton" :class="logInButtonClass">
                             登录
                         </div>
+                        <!-- 协议显示区域 -->
                         <div v-show="loginMethod === 0" class="authCodeClause">
                             <div>
                                 <input
@@ -123,6 +141,7 @@
                     </div>
                 </div>
             </form>
+            <!-- 界面跳转 -->
             <div class="logInPageRedirect">
                 <div @touchstart="logInPageRedirect">
                     <span>其他登录方式</span>
@@ -140,6 +159,7 @@ export default {
     data() {
         return {
             pageHeight: 0,
+            //true显示登录选择界面,false显示具体登录方式界面
             isShowMain: true,
             //0手机验证码登录，1手机密码登录，2邮箱登录
             loginMethod: 0,
@@ -173,6 +193,10 @@ export default {
             if (this.loginMethod === 0) return (this.loginMethod = 1);
             if (this.loginMethod === 1) return (this.loginMethod = 0);
             if (this.loginMethod === 2) return null;
+        },
+        //辅助邮箱后缀
+        clickSuffix(itme) {
+            this.inputId = itme;
         },
         //跳转主页
         clickHouse() {
@@ -213,6 +237,10 @@ export default {
             if (this.loginMethod === 1) return "pwdButton";
             if (this.loginMethod === 2) return "emailButton";
         },
+        //动态错误提示
+        errorTextBox() {
+            this.logInData.errorText.errorText;
+        },
         //动态添加input属性及显示的文本
         logInData() {
             const PhoneCode = {
@@ -238,6 +266,16 @@ export default {
                     leftText: "遇到问题？",
                     rightText: "使用密码验证登录",
                 },
+                errorText: {
+                    verifyMethod: "",
+                    errorText: [
+                        "请输入手机号",
+                        "手机号格式错误",
+                        "请输入短信验证码",
+                        "短信验证码格式错误",
+                        "帐号或密码错误",
+                    ],
+                },
             };
             const PhonePwd = {
                 loginId: {
@@ -262,10 +300,20 @@ export default {
                     leftText: "忘记密码？",
                     rightText: "短信快捷登录",
                 },
+                errorText: {
+                    verifyMethod: "",
+                    errorText: [
+                        "请输入手机号",
+                        "手机号格式错误",
+                        "请输入密码",
+                        "",
+                        "帐号或密码错误",
+                    ],
+                },
             };
             const emailPwd = {
                 loginId: {
-                    type: "email",
+                    type: "text",
                     maxlength: "",
                     spellcheck: "false",
                     tabindex: "1",
@@ -286,10 +334,42 @@ export default {
                     leftText: "注册帐号",
                     rightText: "忘记密码",
                 },
+                errorText: {
+                    verifyMethod: "",
+                    errorText: [
+                        "请输入帐号",
+                        "",
+                        "请输入密码",
+                        "",
+                        "帐号或密码错误",
+                    ],
+                },
             };
             if (this.loginMethod === 0) return PhoneCode;
             if (this.loginMethod === 1) return PhonePwd;
             if (this.loginMethod === 2) return emailPwd;
+        },
+        //邮箱后缀提示
+        emailBoxSuffix() {
+            const inputId = this.inputId.trim();
+            const emailBoxSuffix = [
+                "@163.com",
+                "@126.com",
+                "@yeah.net",
+                "@188.com",
+            ];
+            if (!!!inputId || inputId.indexOf(" ") !== -1) return "";
+            if (inputId.indexOf("@") === -1) {
+                return emailBoxSuffix.map((x) => inputId + x);
+            } else {
+                const re = new RegExp("^" + inputId.split("@")[1], "i");
+                const list = emailBoxSuffix
+                    .filter((x) => re.test(x.split("@")[1]))
+                    .map((x) => inputId.split("@")[0] + x);
+                if (list.length === 0) return "";
+                if (inputId === list[0]) return "";
+                return list;
+            }
         },
     },
     mounted() {
@@ -325,6 +405,18 @@ export default {
     div
         font-size 24px
         color #dd1a21
+// 邮箱登录后缀提示
+.emailSuffix
+    width 100%
+    position absolute
+    top 102%
+    left 0
+    z-index 999
+    background-color #fff
+    li
+        padding 25px 0 20px
+        font-size 28px
+        color #333
 // 选择登录方式界面
 .infoHomePageLogo
     width 100%

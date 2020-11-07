@@ -42,7 +42,7 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .boxBottom
-    margin-bottom 740px
+    margin-bottom 700px
 .headNav
     width 100%
     height 88px

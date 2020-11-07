@@ -4,7 +4,6 @@
         <FooterNav />
     </div>
 </template>
-
 <script>
 import FooterNav from "./components/FooterNav/FooterNav";
 export default {
