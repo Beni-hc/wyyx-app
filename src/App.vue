@@ -19,11 +19,11 @@ export default {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "PingFangSC-Light,helvetica,Heiti SC";
     outline: none;
 }
 body {
     font-size: 12px;
+    font-family: "PingFangSC-Light", "helvetica", "Heiti SC";
 }
 /* html,
 body {

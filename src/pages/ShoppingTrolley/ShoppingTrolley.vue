@@ -3,10 +3,13 @@
         <Heading>
             <div class="headNav">
                 <div class="leftTitle">购物车</div>
-                <div class="rightText">领券</div>
+                <div :class="true ? 'rightTextActive' : 'rightText'">
+                    <span>领券</span>
+                    <span v-show="true">编辑</span>
+                </div>
             </div>
         </Heading>
-        <div class="boxBottom">
+        <div>
             <ul class="description">
                 <li>
                     <i></i>
@@ -22,14 +25,18 @@
                 </li>
             </ul>
         </div>
-        <div class="shoppingCart">
+        <!-- 未登录时显示登录提示 -->
+        <div v-show="false" class="shoppingCart">
             <div><img src="./img/gouwuche.png" alt="" /></div>
             <div>登录</div>
         </div>
+        <!-- 购物车每一项 -->
+        <ShoppingTrolleyItem />
     </div>
 </template>
 <script>
 import Heading from "../../components/Heading/Heading";
+import ShoppingTrolleyItem from "./ShoppingTrolleyItem/ShoppingTrolleyItem";
 export default {
     name: "ShoppingTrolley",
     data() {
@@ -37,12 +44,11 @@ export default {
     },
     components: {
         Heading,
+        ShoppingTrolleyItem,
     },
 };
 </script>
 <style lang="stylus" scoped>
-.boxBottom
-    margin-bottom 700px
 .headNav
     width 100%
     height 88px
@@ -56,9 +62,46 @@ export default {
         font-size 36px
         color #333
     .rightText
-        font-size 30px
-        color #dd1a21
-        margin-right 30px
+        span
+            font-size 30px
+            color #dd1a21
+            margin-right 30px
+    .rightTextActive
+        width 162px
+        display flex
+        justify-content space-between
+        align-items center
+        span
+            &:first-child
+                font-size 24px
+                padding 4px 12px
+                color #fff
+                background-size 100%
+                background-image linear-gradient(-45deg, #FC865F 0, #FC625F 100%)
+                background-repeat no-repeat
+                border-radius 2px
+                position relative
+                top 0
+                left 0
+                &::before, &::after
+                    content ''
+                    width 16px
+                    height 16px
+                    position absolute
+                    top 50%
+                    background-color #fff
+                    transform translateY(-50%)
+                &::before
+                    left -10px
+                    border-top-right-radius 50%
+                    border-bottom-right-radius 50%
+                &::after
+                    right -10px
+                    border-top-left-radius 50%
+                    border-bottom-left-radius 50%
+            &:last-child
+                font-size 30px
+                color #333
 .description
     width 100%
     height 70px

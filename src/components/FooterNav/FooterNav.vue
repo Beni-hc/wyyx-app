@@ -43,6 +43,8 @@ export default {
             isDot: 2,
             isRed: 0,
             isShow: true,
+            //登录状态
+            token: true,
             path: [
                 "/home",
                 "/category",
@@ -69,10 +71,15 @@ export default {
         activNav(index) {
             if (this.isRed !== index) {
                 this.isRed = index;
-                this.$router.push(this.path[index]);
+                if (this.token && index === 4) {
+                    this.$router.push("/loginpersonalinfo");
+                } else {
+                    this.$router.push(this.path[index]);
+                }
             }
         },
         _routeIndex() {
+            if (this.token) return;
             const path = this.$route.matched[0].path;
             const index = this.path.findIndex((index) => index === path);
             if (index !== this.isRed) this.isRed = index;

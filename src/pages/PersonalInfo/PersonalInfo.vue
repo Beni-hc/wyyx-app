@@ -52,10 +52,7 @@
                     <!-- 帐号输入框 -->
                     <div class="logInNumber" :class="logInNumberClass">
                         <!-- 邮箱后缀提示框 -->
-                        <ul
-                            v-if="loginMethod === 2 && !!emailBoxSuffix"
-                            class="emailSuffix"
-                        >
+                        <ul v-if="!!emailBoxSuffix" class="emailSuffix">
                             <li
                                 v-for="itme in emailBoxSuffix"
                                 :key="itme"
@@ -73,6 +70,7 @@
                             :name="logInData.loginId.name"
                             :placeholder="logInData.loginId.placeholder"
                             v-model="inputId"
+                            @change="inputVerify(emailBoxSuffix)"
                         />
                         <div
                             v-show="!!inputId"
@@ -91,8 +89,19 @@
                             :name="logInData.loginPwd.name"
                             :placeholder="logInData.loginPwd.placeholder"
                             v-model="inputPwd"
+                            @change="inputVerify"
                         />
-                        <div v-show="loginMethod === 0">获取验证码</div>
+                        <div
+                            :class="{ activeCode: counter >= 0 }"
+                            @touchstart="getCode"
+                            v-show="loginMethod === 0"
+                        >
+                            {{
+                                counter >= 0
+                                    ? counter + "秒后重发"
+                                    : "获取验证码"
+                            }}
+                        </div>
                         <div
                             v-show="
                                 (loginMethod === 1 || loginMethod === 2) &&
@@ -103,8 +112,8 @@
                         ></div>
                     </div>
                     <!-- 输入错误提示框 -->
-                    <div v-show="!!errorTextBox" class="errorText">
-                        <div>{{ errorTextBox }}</div>
+                    <div v-show="!!errorMessage" class="errorText">
+                        <div>{{ errorMessage }}</div>
                     </div>
                     <div>
                         <!-- 输入框与按钮之间的选项 -->
@@ -166,6 +175,10 @@ export default {
             inputId: "",
             inputPwd: "",
             inputCheckBox: true,
+            //错误提示消息
+            errorMessage: "",
+            //获取验证码计数器
+            counter: -1,
         };
     },
     methods: {
@@ -187,12 +200,24 @@ export default {
         },
         logInPageRedirect() {
             this.isShowMain = true;
-            this.loginMethod = 0;
+            this.loginMethod !== 0 && (this.loginMethod = 0);
+            !!this.inputId && (this.inputId = "");
+            !!this.inputPwd && (this.inputPwd = "");
+            !!this.errorMessage && (this.errorMessage = "");
         },
         logInTextRight() {
-            if (this.loginMethod === 0) return (this.loginMethod = 1);
-            if (this.loginMethod === 1) return (this.loginMethod = 0);
-            if (this.loginMethod === 2) return null;
+            if (this.loginMethod === 0) {
+                this.loginMethod = 1;
+                !!this.inputPwd && (this.inputPwd = "");
+                !!this.errorMessage && (this.errorMessage = "");
+                return;
+            }
+            if (this.loginMethod === 1) {
+                this.loginMethod = 0;
+                !!this.inputPwd && (this.inputPwd = "");
+                !!this.errorMessage && (this.errorMessage = "");
+                return;
+            }
         },
         //辅助邮箱后缀
         clickSuffix(itme) {
@@ -205,6 +230,58 @@ export default {
         //true清空inputId,false清空inputPwd
         clearInput(isClear) {
             isClear ? (this.inputId = "") : (this.inputPwd = "");
+            !!this.errorMessage && (this.errorMessage = "");
+        },
+        //对输入进行验证
+        inputVerify(emailSuffix = []) {
+            const rePhone = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+            const reEmail = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+            const reCode = /^\d{4,6}$/;
+            let re = rePhone;
+            const state = [false, false];
+            if (this.loginMethod === 2) {
+                re = reEmail;
+                if (!!emailSuffix.length) {
+                    this.inputId = emailSuffix[0];
+                }
+            }
+            if (!!this.inputId && !re.test(this.inputId)) {
+                this.errorMessage = this.logInData.errorText.errorText[1];
+            } else {
+                if (!!this.errorMessage) {
+                    this.errorMessage = "";
+                }
+                if (
+                    this.loginMethod === 0 &&
+                    !!this.inputPwd &&
+                    !reCode.test(this.inputPwd)
+                ) {
+                    this.errorMessage = this.logInData.errorText.errorText[3];
+                } else {
+                    state[1] = true;
+                }
+                state[0] = true;
+            }
+            return state;
+        },
+        //发送获取验证码的请求
+        getCode() {
+            if (this.countTime) return;
+            if (!!!this.inputId) {
+                this.errorMessage = this.logInData.errorText.errorText[0];
+                return;
+            }
+            const inputVerify = this.inputVerify();
+            if (inputVerify[0]) {
+                this.counter = 29;
+                this.countTime = setInterval(() => {
+                    this.counter--;
+                    if (this.counter < 0) {
+                        clearInterval(this.countTime);
+                        this.countTime = null;
+                    }
+                }, 1000);
+            }
         },
     },
     computed: {
@@ -234,12 +311,13 @@ export default {
         },
         logInButtonClass() {
             if (this.loginMethod === 0) return "authCodeButton";
-            if (this.loginMethod === 1) return "pwdButton";
-            if (this.loginMethod === 2) return "emailButton";
-        },
-        //动态错误提示
-        errorTextBox() {
-            this.logInData.errorText.errorText;
+            if (this.loginMethod === 1) return "phoneEmailButton";
+            if (this.loginMethod === 2) {
+                if (!!this.inputId && !!this.inputPwd && !!!this.errorMessage) {
+                    return "phoneEmailButton";
+                }
+                return "phoneEmailButton emailButton";
+            }
         },
         //动态添加input属性及显示的文本
         logInData() {
@@ -338,7 +416,7 @@ export default {
                     verifyMethod: "",
                     errorText: [
                         "请输入帐号",
-                        "",
+                        "邮箱格式错误",
                         "请输入密码",
                         "",
                         "帐号或密码错误",
@@ -351,6 +429,7 @@ export default {
         },
         //邮箱后缀提示
         emailBoxSuffix() {
+            if (this.loginMethod !== 2) return "";
             const inputId = this.inputId.trim();
             const emailBoxSuffix = [
                 "@163.com",
@@ -566,6 +645,10 @@ export default {
         line-height 53px
         border-radius 4px
         border 1px solid #cfcfcf
+        background-color #fff
+        &.activeCode
+            color #ccc
+            border-color #ccc
 .authCodeText
     height 116px
     div
@@ -633,6 +716,9 @@ export default {
         font-size 26px
         color #ccc
         transform translateY(-45%)
+.phoneEmailButton
+    color #fff
+    margin-bottom 66px
 // 手机密码登录页
 .pwdText
     height 118px
@@ -644,9 +730,6 @@ export default {
         &:last-child
             color #333
             transform translateY(-45%)
-.pwdButton
-    color #fff
-    margin-bottom 66px
 // 邮箱账号登录
 .emailText
     height 118px
@@ -655,8 +738,7 @@ export default {
         color #7f7f7f
         transform translateY(-50%)
 .emailButton
-    color rgba(255, 255, 255, 0.5)
-    margin-bottom 66px
+    color rgba(255, 255, 255, 0.5) !important
 // 登录界面重定向
 .logInPageRedirect
     width 100%
