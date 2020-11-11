@@ -31,20 +31,112 @@
             <div>登录</div>
         </div>
         <!-- 购物车每一项 -->
-        <ShoppingTrolleyItem />
+        <div>
+            <ul class="shoppingCartItem">
+                <li v-for="(item, index) in dataList" :key="index">
+                    <ShoppingTrolleyItem
+                        :commodity="item"
+                        :IDIndex="index"
+                        @addAndSub="addAndSub"
+                        @clickOptFor="clickOptFor"
+                    />
+                </li>
+            </ul>
+        </div>
+        <div class="shoppingCartGather">
+            <div>
+                <div class="shoppingCartGatherLeft">
+                    <i
+                        @touchstart="clickTotal"
+                        class="iconfont"
+                        :class="
+                            total
+                                ? ['icon-check-copy', 'iconCheckRed']
+                                : ['icon-check1', 'iconCheckQuan']
+                        "
+                    ></i>
+                    <span>已选({{ selected }})</span>
+                </div>
+                <div class="shoppingCartGatherRight">
+                    <div>
+                        <span>合计: ¥</span>
+                        <span>{{ totalActivityPrice }}</span>
+                    </div>
+                    <p>已优惠: ¥{{ totalOriginalPrice }}</p>
+                </div>
+            </div>
+            <div>下单</div>
+        </div>
+        <div style="height: 500px"></div>
     </div>
 </template>
 <script>
 import Heading from "../../components/Heading/Heading";
 import ShoppingTrolleyItem from "./ShoppingTrolleyItem/ShoppingTrolleyItem";
+import a from "../../DATA/data";
 export default {
     name: "ShoppingTrolley",
     data() {
-        return {};
+        return {
+            dataList: [],
+            total: false,
+            selected: 0,
+            totalActivityPrice: 0,
+            totalOriginalPrice: 0,
+        };
+    },
+    methods: {
+        addAndSub(isAdd, IDIndex) {
+            if (!isAdd && this.dataList[IDIndex].count > 1) {
+                this.dataList[IDIndex].count--;
+            }
+            if (isAdd) {
+                this.dataList[IDIndex].count++;
+            }
+        },
+        clickOptFor(IDIndex) {
+            this.dataList[IDIndex].optFor = !this.dataList[IDIndex].optFor;
+        },
+        clickTotal() {
+            this.dataList.forEach((element) => {
+                if (this.total) {
+                    element.optFor = false;
+                } else {
+                    element.optFor = true;
+                }
+            });
+        },
+    },
+    computed: {},
+    watch: {
+        dataList: {
+            handler: function (val) {
+                const list = val.filter((item) => {
+                    return item.optFor;
+                });
+                if (list.length === val.length) {
+                    this.total = true;
+                } else {
+                    this.total = false;
+                }
+                this.selected = list.length;
+
+                this.totalActivityPrice = list.reduce((x, y) => {
+                    return x + y.content.activityPrice * y.count;
+                }, 0);
+                this.totalOriginalPrice = list.reduce((x, y) => {
+                    return x + y.content.originalPrice * y.count;
+                }, 0);
+            },
+            deep: true,
+        },
     },
     components: {
         Heading,
         ShoppingTrolleyItem,
+    },
+    created() {
+        this.dataList = a.ShoppingTrolley;
     },
 };
 </script>
@@ -71,9 +163,10 @@ export default {
         display flex
         justify-content space-between
         align-items center
+        line-height 1.5
         span
             &:first-child
-                font-size 24px
+                font-size 20px
                 padding 4px 12px
                 color #fff
                 background-size 100%
@@ -159,4 +252,56 @@ export default {
         border-radius 5px
         text-align center
         line-height 92px
+.shoppingCartItem
+    li
+        margin-bottom 24px
+.shoppingCartGather
+    padding-left 30px
+    background-color #fff
+    display flex
+    position fixed
+    left 0px
+    bottom 98px
+    &>div
+        height 118px
+        &:first-child
+            width 494px
+            display flex
+            justify-content space-between
+            align-items center
+            padding-right 8px
+            .shoppingCartGatherLeft
+                line-height 38px
+                i
+                    display inline-block
+                    width 38px
+                    height 38px
+                    margin-right 16px
+                    font-size 37px
+                    vertical-align bottom
+                span
+                    font-size 28px
+                    color #7f7f7f
+                    vertical-align bottom
+            .shoppingCartGatherRight
+                text-align right
+                padding-bottom 10px
+                div
+                    font-size 28px
+                    color #dd1a21
+                p
+                    font-size 22px
+                    color #7f7f7f
+                    margin-top 2px
+        &:last-child
+            width 226px
+            background-color #dd1a21
+            font-size 28px
+            color #ffffff
+            text-align center
+            line-height 118px
+.iconCheckRed
+    color #dc1a21
+.iconCheckQuan
+    color #d2d6d2
 </style>

@@ -1515,4 +1515,82 @@ const worth = {
 		],
 	],
 };
-export default { Category, worth };
+const ShoppingTrolley = [
+	{
+		optFor: false,
+		count: 1,
+		content: {
+			img: require("../pages/ShoppingTrolley/ShoppingTrolleyItem/img/1_1.png"),
+			title: "谷风一木3层软抽面巾纸 6包/提",
+			eachItem: "6包/提",
+			activityPrice: 0,
+			originalPrice: 16.9,
+			description: [
+				"订单满159元可购买,还差159元",
+				"该商品不参加全场活动",
+				"该福利商品将于2020-11-12 14:05失效，请及时购买",
+			],
+		},
+	},
+	{
+		optFor: false,
+		count: 1,
+		content: {
+			img: require("../pages/ShoppingTrolley/ShoppingTrolleyItem/img/1_2.png"),
+			title: "每一盏都手工干挑，马来进口手挑燕盏",
+			eachItem: "30克(六盏)",
+			activityPrice: 999,
+			originalPrice: 1288,
+			description: [],
+		},
+	},
+	{
+		optFor: false,
+		count: 1,
+		content: {
+			img: require("../pages/ShoppingTrolley/ShoppingTrolleyItem/img/1_3.png"),
+			title: "新人特价包邮 泡脚不用倒水啦!蒸气沐足盆(赠保温盖板)",
+			eachItem: "沐足盆(附赠盖板)",
+			activityPrice: 349,
+			originalPrice: 419,
+			description: ["新人优惠活动每用户仅限参与1次"],
+		},
+	},
+	{
+		optFor: false,
+		count: 1,
+		content: {
+			img: require("../pages/ShoppingTrolley/ShoppingTrolleyItem/img/1_4.png"),
+			title: "新人特价 薄至2.5mm,海量鲸吸婴儿拉拉裤学步裤",
+			eachItem: "XL28片*1包",
+			activityPrice: 49.9,
+			originalPrice: 69,
+			description: ["新人优惠活动每用户仅限参与1次"],
+		},
+	},
+	{
+		optFor: false,
+		count: 1,
+		content: {
+			img: require("../pages/ShoppingTrolley/ShoppingTrolleyItem/img/1_5.png"),
+			title: "超级疯抢 2020年焕新款,家庭蒸汽挂烫机",
+			eachItem: "香槟色",
+			activityPrice: 379,
+			originalPrice: 399,
+			description: [],
+		},
+	},
+	{
+		optFor: false,
+		count: 1,
+		content: {
+			img: require("../pages/ShoppingTrolley/ShoppingTrolleyItem/img/1_6.png"),
+			title: "95%高纯白鹅绒羽绒服 升级防螨",
+			eachItem: "经典款香槟色 冬款200*230cm（1150g）",
+			activityPrice: 1999,
+			originalPrice: 0,
+			description: [],
+		},
+	},
+];
+export default { Category, worth, ShoppingTrolley };
