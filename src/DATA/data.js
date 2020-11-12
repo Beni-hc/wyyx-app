@@ -1523,7 +1523,7 @@ const ShoppingTrolley = [
 			img: require("../pages/ShoppingTrolley/ShoppingTrolleyItem/img/1_1.png"),
 			title: "谷风一木3层软抽面巾纸 6包/提",
 			eachItem: "6包/提",
-			activityPrice: 0,
+			activityPrice: 5,
 			originalPrice: 16.9,
 			description: [
 				"订单满159元可购买,还差159元",

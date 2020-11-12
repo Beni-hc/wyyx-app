@@ -87,10 +87,19 @@ export default {
     },
     methods: {
         addAndSub(isAdd, IDIndex) {
+            if (!isAdd && this.dataList[IDIndex].count === 1) {
+                confirm("本商品1件起售");
+            }
             if (!isAdd && this.dataList[IDIndex].count > 1) {
+                if (!this.dataList[IDIndex].optFor) {
+                    this.dataList[IDIndex].optFor = true;
+                }
                 this.dataList[IDIndex].count--;
             }
             if (isAdd) {
+                if (!this.dataList[IDIndex].optFor) {
+                    this.dataList[IDIndex].optFor = true;
+                }
                 this.dataList[IDIndex].count++;
             }
         },
@@ -122,10 +131,14 @@ export default {
                 this.selected = list.length;
 
                 this.totalActivityPrice = list.reduce((x, y) => {
-                    return x + y.content.activityPrice * y.count;
+                    return (
+                        x + (y.content.activityPrice * 10000 * y.count) / 10000
+                    );
                 }, 0);
                 this.totalOriginalPrice = list.reduce((x, y) => {
-                    return x + y.content.originalPrice * y.count;
+                    return (
+                        x + (y.content.originalPrice * 10000 * y.count) / 10000
+                    );
                 }, 0);
             },
             deep: true,
