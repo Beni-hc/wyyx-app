@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="homeBox">
         <Heading>
             <HomeLog />
             <HomeNavSwitch @clickswitch="show = $event" :isShow="show">
@@ -17,66 +17,44 @@
             </HomeNavSwitch>
         </Heading>
         <div class="banner">
-            <banner></banner>
+            <banner :bannerList="bannerList"></banner>
         </div>
         <div class="classify">
             <div class="promise">
                 <div>
-                    <img src="../../assets/tubiao1_3.png" alt="" /><span
-                        >网易自营品牌</span
-                    >
+                    <img
+                        :src="homeDataLIst.data.policyDescList[0].icon"
+                        alt=""
+                    /><span>{{
+                        homeDataLIst.data.policyDescList[0].desc
+                    }}</span>
                 </div>
                 <div>
-                    <img src="../../assets/tubiao1_1.png" alt="" /><span
-                        >30天无忧退货</span
-                    >
+                    <img
+                        :src="homeDataLIst.data.policyDescList[1].icon"
+                        alt=""
+                    /><span>{{
+                        homeDataLIst.data.policyDescList[1].desc
+                    }}</span>
                 </div>
                 <div>
-                    <img src="../../assets/tubiao1_2.png" alt="" /><span
-                        >48小时快速退款</span
-                    >
+                    <img
+                        :src="homeDataLIst.data.policyDescList[2].icon"
+                        alt=""
+                    /><span>{{
+                        homeDataLIst.data.policyDescList[2].desc
+                    }}</span>
                 </div>
             </div>
             <div class="classList">
-                <a href="javascript:;">
-                    <img src="../../assets/classList_img/sp1_1.png" alt="" />
-                    <span>新品首发</span>
-                </a>
-                <a href="javascript:;">
-                    <img src="../../assets/classList_img/sp1_2.png" alt="" />
-                    <span>居家生活</span>
-                </a>
-                <a href="javascript:;">
-                    <img src="../../assets/classList_img/sp1_3.png" alt="" />
-                    <span>服饰鞋包</span>
-                </a>
-                <a href="javascript:;">
-                    <img src="../../assets/classList_img/sp1_4.png" alt="" />
-                    <span>美食酒水</span>
-                </a>
-                <a href="javascript:;">
-                    <img src="../../assets/classList_img/sp1_5.png" alt="" />
-                    <span>个人清洁</span>
-                </a>
-                <a href="javascript:;">
-                    <img src="../../assets/classList_img/sp1_6.png" alt="" />
-                    <span>母婴亲子</span>
-                </a>
-                <a href="javascript:;">
-                    <img src="../../assets/classList_img/sp1_7.png" alt="" />
-                    <span>运动旅行</span>
-                </a>
-                <a href="javascript:;">
-                    <img src="../../assets/classList_img/sp1_8.png" alt="" />
-                    <span>数码家电</span>
-                </a>
-                <a href="javascript:;">
-                    <img src="../../assets/classList_img/sp1_9.png" alt="" />
-                    <span>全球特色</span>
-                </a>
-                <a href="javascript:;">
-                    <img src="../../assets/classList_img/sp1_10.gif" alt="" />
-                    <span>好货抄底</span>
+                <a
+                    href="javascript:;"
+                    v-for="(classList, index) in homeDataLIst.data
+                        .kingKongModule.kingKongList"
+                    :key="index"
+                >
+                    <img :src="classList.picUrl" alt="" />
+                    <span>{{ classList.text }}</span>
                 </a>
             </div>
         </div>
@@ -84,7 +62,10 @@
             <div class="promotionTop">
                 <a href="javascript:;">
                     <img
-                        src="../../assets/promotion_img/promotion_1.gif"
+                        :src="
+                            homeDataLIst.data.bigPromotionModule.floorList[0]
+                                .cells[0].picUrl
+                        "
                         alt=""
                     />
                 </a>
@@ -125,28 +106,77 @@
                 </a>
                 <a href="javascript:;">
                     <div>
-                        <div>福利社</div>
-                        <div>今日特价</div>
+                        <div>
+                            {{ homeDataLIst.data.indexActivityModule[0].title }}
+                        </div>
+                        <div>
+                            {{
+                                homeDataLIst.data.indexActivityModule[0]
+                                    .subTitle
+                            }}
+                        </div>
                         <div>
                             <div>
-                                <span>¥10</span>
-                                <del><span>¥15</span></del>
+                                <span
+                                    >¥{{
+                                        homeDataLIst.data.indexActivityModule[0]
+                                            .activityPrice
+                                    }}</span
+                                >
+                                <del
+                                    ><span
+                                        >¥{{
+                                            homeDataLIst.data
+                                                .indexActivityModule[0]
+                                                .originPrice
+                                        }}</span
+                                    ></del
+                                >
                             </div>
-                            <img src="../../assets/bodylist/fuli.webp" alt="" />
+                            <img
+                                :src="
+                                    homeDataLIst.data.indexActivityModule[0]
+                                        .picUrl
+                                "
+                                alt=""
+                            />
                         </div>
                     </div>
                 </a>
                 <a href="javascript:;">
                     <div>
-                        <div>新人拼团</div>
-                        <div><span>1元起包邮</span></div>
+                        <div>
+                            {{ homeDataLIst.data.indexActivityModule[1].title }}
+                        </div>
+                        <div>
+                            <span>{{
+                                homeDataLIst.data.indexActivityModule[1]
+                                    .subTitle
+                            }}</span>
+                        </div>
                         <div>
                             <div>
-                                <span>¥32.8</span>
-                                <del><span>¥49</span></del>
+                                <span
+                                    >¥{{
+                                        homeDataLIst.data.indexActivityModule[1]
+                                            .activityPrice
+                                    }}</span
+                                >
+                                <del
+                                    ><span
+                                        >¥{{
+                                            homeDataLIst.data
+                                                .indexActivityModule[1]
+                                                .originPrice
+                                        }}</span
+                                    ></del
+                                >
                             </div>
                             <img
-                                src="../../assets/bodylist/pintuan.webp"
+                                :src="
+                                    homeDataLIst.data.indexActivityModule[1]
+                                        .picUrl
+                                "
                                 alt=""
                             />
                         </div>
@@ -156,13 +186,17 @@
         </div>
         <div class="rxbList">
             <div class="rxbTitle">
-                <span>类目热销榜</span>
+                <span>{{ homeDataLIst.data.categoryHotSellModule.title }}</span>
             </div>
             <div class="rxbBody">
-                <div v-for="(rxblist, index) in rxb" :key="index">
-                    <div>{{ rxblist.title }}</div>
+                <div
+                    v-for="(rxblist, index) in homeDataLIst.data
+                        .categoryHotSellModule.categoryList"
+                    :key="index"
+                >
+                    <div>{{ rxblist.categoryName }}</div>
                     <div>
-                        <img :src="rxblist.imgShow" alt="" />
+                        <img :src="rxblist.picUrl" alt="" />
                     </div>
                 </div>
             </div>
@@ -207,16 +241,16 @@
                 </div>
             </div>
             <div class="xpsfBody">
-                <div v-for="(xpsfList, index) in xpsf" :key="index">
+                <div v-for="(xpsfList, index) in xpsfBody" :key="index">
                     <div>
-                        <img :src="xpsfList.img" alt="" />
+                        <img :src="xpsfList.listPicUrl" alt="" />
                     </div>
                     <div>
-                        <p>{{ xpsfList.descriptive }}</p>
-                        <span>¥{{ xpsfList.price }}</span>
+                        <p>{{ xpsfList.name }}</p>
+                        <span>¥{{ xpsfList.retailPrice }}</span>
                         <div>
                             <div>
-                                <span>{{ xpsfList.x }}</span>
+                                <span>{{ xpsfList.itemTagList[0].name }}</span>
                             </div>
                         </div>
                     </div>
@@ -225,19 +259,63 @@
         </div>
         <div class="yxcsList">
             <div>
-                <div>严选超市</div>
-                <div>10元凑好物</div>
                 <div>
-                    <img src="../../assets/bodylist/yxcs_1.webp" alt="" />
-                    <img src="../../assets/bodylist/yxcs_2.webp" alt="" />
+                    {{
+                        homeDataLIst.data.sceneLightShoppingGuideModule[0]
+                            .styleItem.title
+                    }}
+                </div>
+                <div>
+                    {{
+                        homeDataLIst.data.sceneLightShoppingGuideModule[0]
+                            .styleItem.desc
+                    }}
+                </div>
+                <div>
+                    <img
+                        :src="
+                            homeDataLIst.data.sceneLightShoppingGuideModule[0]
+                                .styleItem.picUrlList[0]
+                        "
+                        alt=""
+                    />
+                    <img
+                        :src="
+                            homeDataLIst.data.sceneLightShoppingGuideModule[0]
+                                .styleItem.picUrlList[1]
+                        "
+                        alt=""
+                    />
                 </div>
             </div>
             <div>
-                <div>员工精选</div>
-                <div>泥面膜8折</div>
                 <div>
-                    <img src="../../assets/bodylist/ygjp_1.webp" alt="" />
-                    <img src="../../assets/bodylist/ygjp_2.webp" alt="" />
+                    {{
+                        homeDataLIst.data.sceneLightShoppingGuideModule[1]
+                            .styleItem.title
+                    }}
+                </div>
+                <div>
+                    {{
+                        homeDataLIst.data.sceneLightShoppingGuideModule[1]
+                            .styleItem.desc
+                    }}
+                </div>
+                <div>
+                    <img
+                        :src="
+                            homeDataLIst.data.sceneLightShoppingGuideModule[1]
+                                .styleItem.picUrlList[0]
+                        "
+                        alt=""
+                    />
+                    <img
+                        :src="
+                            homeDataLIst.data.sceneLightShoppingGuideModule[1]
+                                .styleItem.picUrlList[1]
+                        "
+                        alt=""
+                    />
                 </div>
             </div>
         </div>
@@ -262,6 +340,9 @@ import HomeAvtivNav from "./HomeActivNav/HomeActivNav";
 import HomeNavSwitch from "./HomeNavSwitch/HomeNavSwitch";
 //主体组件
 import banner from "../../components/banner/banner";
+//常量
+import { GET_HOME_LIST } from "../../store/mutations-type";
+import { mapState } from "vuex";
 
 export default {
     name: "home",
@@ -402,9 +483,27 @@ export default {
             this.showIndex = index;
         },
     },
+    computed: {
+        ...mapState(["homeDataLIst"]),
+        xpsfBody() {
+            return this.homeDataLIst.data.newItemList.slice(0, 6);
+        },
+        bannerList() {
+            const list = [];
+            this.homeDataLIst.data.focusList.forEach((e) => {
+                list.push(e.picUrl);
+            });
+            return list;
+        },
+    },
+    created() {
+        this.$store.dispatch(GET_HOME_LIST);
+    },
 };
 </script>
 <style lang="stylus" scoped>
+.homeBox
+    padding-bottom 98px
 .scrollWidth
     width 650px
     height 100%
