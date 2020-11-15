@@ -6,7 +6,7 @@
                 v-for="(banner, index) in bannerList"
                 :key="index"
             >
-                <img :src="banner" alt="" class="imgStyle" />
+                <img :src="banner.picUrl" :alt="banner.name" class="imgStyle" />
             </div>
         </div>
         <div class="swiper-pagination"></div>
@@ -21,23 +21,7 @@ export default {
         bannerList: {
             type: Array,
             default: function () {
-                return [
-                    require("../../assets/banner_img/banner1.webp"),
-
-                    require("../../assets/banner_img/banner2.webp"),
-
-                    require("../../assets/banner_img/banner3.webp"),
-
-                    require("../../assets/banner_img/banner4.webp"),
-
-                    require("../../assets/banner_img/banner5.webp"),
-
-                    require("../../assets/banner_img/banner6.webp"),
-
-                    require("../../assets/banner_img/banner7.webp"),
-
-                    require("../../assets/banner_img/banner8.webp"),
-                ];
+                return [];
             },
         },
     },

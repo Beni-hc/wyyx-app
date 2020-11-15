@@ -15,7 +15,34 @@ app.get("/home", (req, res) => {
 		})
 		.then((response) => {
 			const result = response.data;
-			res.send(result);
+			res.send(JSON.stringify(result));
+		})
+		.catch((error) => {
+			console.log(error.message);
+		});
+});
+app.get("/search", (req, res) => {
+	axios
+		.get("https://m.you.163.com/xhr/search/getTotalNumbersOfProducts.json")
+		.then((response) => {
+			const result = response.data;
+			res.send(JSON.stringify(result));
+		})
+		.catch((error) => {
+			console.log(error.message);
+		});
+});
+//分类数据
+app.get("/category", (req, res) => {
+	const __timestamp = Date.now();
+	const categoryId = req.query.ID;
+	axios
+		.get("https://m.you.163.com/item/cateList.json", {
+			params: { __timestamp, categoryId },
+		})
+		.then((response) => {
+			const result = response.data;
+			res.send(JSON.stringify(result));
 		})
 		.catch((error) => {
 			console.log(error.message);

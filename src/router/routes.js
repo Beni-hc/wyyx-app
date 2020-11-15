@@ -18,13 +18,6 @@ export default [
 	{
 		path: "/category",
 		component: Category,
-		children: [
-			{
-				path: "categorycontentlist/:id",
-				component: CategoryContentList,
-				props: true,
-			},
-		],
 	},
 	//值得买
 	{

@@ -10,7 +10,7 @@
                 :key="navitem.id"
                 @tap="activColor(navitem.id, index)"
             >
-                {{ navitem.title }}
+                {{ navitem.name }}
             </li>
         </ul>
     </div>
@@ -72,7 +72,11 @@ export default {
     mounted() {
         this._initScroll();
     },
-    watch: {},
+    watch: {
+        navlistArray() {
+            this._initScroll();
+        },
+    },
 };
 </script>
 <style lang="stylus" scoped>

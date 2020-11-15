@@ -1,7 +1,7 @@
 <template>
     <div class="search" :style="_search">
         <i class="iconfont icon-sousuo" :style="_search_i"></i>
-        <span :style="_search_span">{{ text }}</span>
+        <span :style="_search_span">搜索商品,共{{ text }}款好物</span>
     </div>
 </template>
 <script>
@@ -10,8 +10,8 @@ export default {
     props: {
         //显示的文本
         text: {
-            type: String,
-            default: "搜索商品，共37672款好物",
+            type: Number,
+            default: 0,
         },
         width: {
             type: Number,

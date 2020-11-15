@@ -2,7 +2,7 @@
     <div>
         <Heading @hideApp="isShow = !isShow">
             <div class="categoryHead">
-                <searchBox :text="categoryData.search" />
+                <searchBox :text="search" />
             </div>
         </Heading>
         <div class="categoryBody" :style="changeHeight">
@@ -10,13 +10,13 @@
                 <categoryContentNav
                     width="100%"
                     height="100%"
-                    :navlistArray="categoryData.title"
+                    :navlistArray="category.categoryL1List"
                     @onClick="routeNav"
                 />
             </div>
             <div class="categoryRight" ref="categoryRight">
                 <div class="scrollBlock">
-                    <router-view></router-view>
+                    <CategoryContentList :category="category" />
                 </div>
             </div>
         </div>
@@ -28,13 +28,15 @@ import BScroll from "@better-scroll/core";
 import Heading from "../../components/Heading/Heading";
 import searchBox from "../../components/Heading/searchBox";
 import categoryContentNav from "../Category/Category/categoryContentNav";
-import Category from "../../DATA/data";
+import CategoryContentList from "./Category/CategoryContentList";
+
+import { GET_HOME_CATEGORY } from "../../store/mutations-type";
+import { mapState } from "vuex";
 
 export default {
     name: "category",
     data() {
         return {
-            categoryData: {},
             isShow: true,
         };
     },
@@ -57,9 +59,7 @@ export default {
             });
         },
         routeNav(id) {
-            this.$router.replace({
-                path: `/category/categorycontentlist/${id}`,
-            });
+            this.$store.dispatch(GET_HOME_CATEGORY, id);
         },
     },
     computed: {
@@ -68,28 +68,27 @@ export default {
                 ? { height: `calc(100vh - 3.85rem)` }
                 : { height: `calc(100vh - 2.46rem)` };
         },
+        ...mapState({
+            search: "search",
+            category: function (state) {
+                this._initScroll();
+                return state.category;
+            },
+        }),
     },
     mounted() {
         this._initScroll();
-
-        this.categoryData = Category.Category;
-        let id = this.categoryData.title[0].id;
-        if (this.$route.path !== `/category/categorycontentlist/${id}`) {
-            this.$router.replace({
-                path: `/category/categorycontentlist/${id}`,
-            });
-        }
+    },
+    created() {
+        this.$store.dispatch(GET_HOME_CATEGORY);
     },
     components: {
         Heading,
         searchBox,
         categoryContentNav,
+        CategoryContentList,
     },
-    watch: {
-        $route() {
-            this._initScroll();
-        },
-    },
+    watch: {},
 };
 </script>
 <style lang="stylus" scoped>

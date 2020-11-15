@@ -1,3 +1,5 @@
 export default {
-	homeDataLIst: {},
+	homeDataList: {},
+	search: 0,
+	category: {},
 };

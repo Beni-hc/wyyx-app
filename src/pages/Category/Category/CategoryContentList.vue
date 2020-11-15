@@ -2,20 +2,20 @@
     <div class="categoryList">
         <div class="categoryrightTop">
             <img
-                v-if="datalist.content[id].img.length < 2"
-                :src="datalist.content[id].img"
+                v-if="category.currentCategory.bannerList.length < 2"
+                :src="category.currentCategory.bannerList[0].picUrl"
                 alt=""
             />
-            <banner v-else :bannerList="datalist.content[id].img" />
+            <banner v-else :bannerList="category.currentCategory.bannerList" />
         </div>
         <div class="categoryrightBottom">
             <categoryContentItem
-                :text="'text'"
-                :img="'img'"
-                v-for="title in datalist.content[id].title"
+                :text="'name'"
+                :img="'wapBannerUrl'"
+                v-for="title in category.categoryGroupList"
                 :key="title.id"
-                :title="title.title"
-                :listArray="datalist.content[id].content[title.id]"
+                :title="title.name"
+                :listArray="title.categoryList"
             ></categoryContentItem>
         </div>
     </div>
@@ -23,14 +23,13 @@
 <script>
 import banner from "../../../components/banner/banner";
 import categoryContentItem from "./categoryContentItem";
-import Category from "../../../DATA/data";
 export default {
     name: "CategoryContentList",
-    props: ["id"],
+    props: {
+        category: Object,
+    },
     data() {
-        return {
-            datalist: {},
-        };
+        return {};
     },
     methods: {},
     mounted() {},
@@ -38,9 +37,7 @@ export default {
         banner,
         categoryContentItem,
     },
-    created() {
-        this.datalist = Category.Category;
-    },
+    created() {},
 };
 </script>
 <style lang="stylus" scoped>
