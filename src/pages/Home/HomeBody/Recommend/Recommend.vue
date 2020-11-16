@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="isshowpage">
         <div class="banner">
             <banner :bannerList="homeDataList.focusList"></banner>
         </div>
@@ -161,14 +161,24 @@
             <div class="xpsfBody">
                 <div v-for="(xpsfList, index) in xpsfBody" :key="index">
                     <div>
-                        <img :src="xpsfList.listPicUrl" alt="" />
+                        <img
+                            :src="
+                                xpsfList.primaryPicUrl +
+                                '?type=webp&imageView&quality=65&thumbnail=330x330'
+                            "
+                            alt=""
+                        />
                     </div>
                     <div>
                         <p>{{ xpsfList.name }}</p>
                         <span>¥{{ xpsfList.retailPrice }}</span>
-                        <div>
+                        <div v-show="xpsfList.itemTagList.lenght > 0">
                             <div>
-                                <span>{{ xpsfList.itemTagList[0].name }}</span>
+                                <span>{{
+                                    xpsfList.itemTagList.lenght > 0
+                                        ? xpsfList.itemTagList[0].name
+                                        : ""
+                                }}</span>
                             </div>
                         </div>
                     </div>
@@ -215,16 +225,26 @@ import { mapState } from "vuex";
 export default {
     name: "Recommend",
     data() {
-        return {};
+        return {
+            isshowpage: false,
+        };
+    },
+    methods: {
+        _isshowpage() {
+            this.isshowpage = true;
+        },
     },
     computed: {
         ...mapState(["homeDataList"]),
         xpsfBody() {
-            return this.homeDataList.newItemList.slice(0, 6);
+            const list = this.homeDataList.newItemList
+                ? this.homeDataList.newItemList.slice(0, 6)
+                : [];
+            return list;
         },
     },
     created() {
-        this.$store.dispatch(GET_HOME_LIST);
+        this.$store.dispatch(GET_HOME_LIST, this._isshowpage);
     },
     components: {
         banner,

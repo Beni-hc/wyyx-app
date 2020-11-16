@@ -12,26 +12,18 @@
             </div>
         </div>
         <div class="worthbottom">
-            <div>
+            <div
+                v-for="(listLeftAndRight, index) in worthLeftAndRight"
+                :key="index"
+            >
                 <WorthItem
-                    v-for="(leftItem, leftIndex) in listLeft"
+                    v-for="(leftItem, leftIndex) in listLeftAndRight"
                     :key="leftIndex"
-                    :listImg="leftItem.showImg"
-                    :listText="leftItem.text"
-                    :headImg="leftItem.headImg"
-                    :headName="leftItem.name"
-                    :watchNumber="leftItem.watchNumber"
-                />
-            </div>
-            <div>
-                <WorthItem
-                    v-for="(rightItem, rightIndex) in listRight"
-                    :key="rightIndex"
-                    :listImg="rightItem.showImg"
-                    :listText="rightItem.text"
-                    :headImg="rightItem.headImg"
-                    :headName="rightItem.name"
-                    :watchNumber="rightItem.watchNumber"
+                    :listImg="leftItem.picUrl"
+                    :listText="leftItem.title"
+                    :headImg="leftItem.avatar"
+                    :headName="leftItem.nickname"
+                    :watchNumber="leftItem.readCount"
                 />
             </div>
         </div>
@@ -42,16 +34,16 @@ import heading from "../../components/Heading/Heading";
 import generalNav from "../../components/Heading/generalNav";
 import worthBanner from "./Worth/WorthBanner";
 import WorthItem from "./Worth/WorthItem";
-import worth from "../../DATA/data";
+import { mapState } from "vuex";
+import { GET_WORTH_ITEM_LIST } from "../../store/mutations-type";
+
 export default {
     name: "worth",
     data() {
         return {
-            listLeft: [],
-            listRight: [],
-            pendding: true,
-            huhuan: true,
-            worthlist: [],
+            worthLeftAndRight: [],
+            page: 1,
+            pending: true,
         };
     },
     components: {
@@ -62,32 +54,48 @@ export default {
     },
     methods: {
         _onscroll() {
-            let pages = document.documentElement || document.body;
-            let ch = pages.clientHeight;
-            let sh = pages.scrollHeight;
-            let st = pages.scrollTop;
-            if (sh - ch - st < 400 && this.pendding) {
-                this.pendding = false;
-                setTimeout(() => {
-                    if (this.huhuan) {
-                        this.listLeft.push(...this.worthlist[1]);
-                        this.listRight.push(...this.worthlist[0]);
-                        this.huhuan = false;
-                    } else {
-                        this.listLeft.push(...this.worthlist[0]);
-                        this.listRight.push(...this.worthlist[1]);
-                        this.huhuan = true;
-                    }
-
-                    this.pendding = true;
-                }, 500);
+            // let pages = document.documentElement || document.body;
+            // let ch = pages.clientHeight;
+            // let sh = pages.scrollHeight;
+            // let st = pages.scrollTop;
+            let ch =
+                document.documentElement.clientHeight ||
+                document.body.clientHeight;
+            let sh =
+                document.documentElement.scrollHeight ||
+                document.body.scrollHeight;
+            let st =
+                document.documentElement.scrollTop || document.body.scrollTop;
+            if (sh - ch - st < 200 && this.pending) {
+                this.page++;
+                this.pending = false;
+                this.$store.dispatch(GET_WORTH_ITEM_LIST, {
+                    page: this.page,
+                    _addWorthItemList: this._addWorthItemList,
+                });
             }
         },
+        _addWorthItemList() {
+            if (!!!this.worthLeftAndRight.length) {
+                this.worthItemList.result.forEach((e, index) => {
+                    this.worthLeftAndRight.push(e.topics);
+                });
+            } else {
+                this.worthItemList.result.forEach((e, index) => {
+                    this.worthLeftAndRight[index].push(...e.topics);
+                });
+            }
+            this.pending = true;
+        },
+    },
+    computed: {
+        ...mapState(["worthItemList"]),
     },
     created() {
-        this.worthlist.push(...JSON.parse(JSON.stringify(worth.worth.display)));
-        this.listLeft.push(...this.worthlist[0]);
-        this.listRight.push(...this.worthlist[1]);
+        this.$store.dispatch(GET_WORTH_ITEM_LIST, {
+            page: this.page,
+            _addWorthItemList: this._addWorthItemList,
+        });
     },
     mounted() {
         document.addEventListener("scroll", this._onscroll);

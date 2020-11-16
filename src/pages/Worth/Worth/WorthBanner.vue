@@ -3,7 +3,7 @@
         <ul class="swiper-wrapper">
             <li
                 class="swiper-slide"
-                v-for="(list, index) in worthBanner.banner"
+                v-for="(list, index) in worthNva"
                 :key="index"
             >
                 <div
@@ -11,9 +11,9 @@
                     v-for="(item, indexItem) in list"
                     :key="indexItem"
                 >
-                    <img :src="item.img" alt="item.title" />
-                    <div>{{ item.title }}</div>
-                    <div>{{ item.text }}</div>
+                    <img :src="item.picUrl" :alt="item.mainTitle" />
+                    <div>{{ item.mainTitle }}</div>
+                    <div>{{ item.viceTitle }}</div>
                 </div>
             </li>
         </ul>
@@ -24,12 +24,12 @@
 <script>
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
-import worth from "../../../DATA/data";
+import { mapState } from "vuex";
+import { GET_WORTH_LIST_NAV } from "../../../store/mutations-type";
 export default {
     name: "worthBanner",
     data() {
         return {
-            worthBanner: {},
             swiperOption: {
                 pagination: {
                     el: ".swiper-pagination",
@@ -40,6 +40,25 @@ export default {
             },
         };
     },
+    computed: {
+        ...mapState({
+            worthNva: function (state) {
+                const navList = [];
+                const numb = 8;
+                if (state.worthNva.navList) {
+                    state.worthNva.navList.forEach((e, index) => {
+                        if (index < numb) {
+                            navList.push([e]);
+                        } else {
+                            navList[index - numb].push(e);
+                        }
+                    });
+                }
+
+                return navList;
+            },
+        }),
+    },
     components: {
         Swiper,
         SwiperSlide,
@@ -48,7 +67,7 @@ export default {
         swiper: directive,
     },
     created() {
-        this.worthBanner = worth.worth;
+        this.$store.dispatch(GET_WORTH_LIST_NAV);
     },
 };
 </script>

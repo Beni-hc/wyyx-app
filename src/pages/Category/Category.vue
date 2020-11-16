@@ -30,7 +30,7 @@ import searchBox from "../../components/Heading/searchBox";
 import categoryContentNav from "../Category/Category/categoryContentNav";
 import CategoryContentList from "./Category/CategoryContentList";
 
-import { GET_HOME_CATEGORY } from "../../store/mutations-type";
+import { GET_CATEGORY_LIST } from "../../store/mutations-type";
 import { mapState } from "vuex";
 
 export default {
@@ -59,7 +59,7 @@ export default {
             });
         },
         routeNav(id) {
-            this.$store.dispatch(GET_HOME_CATEGORY, id);
+            this.$store.dispatch(GET_CATEGORY_LIST, id);
         },
     },
     computed: {
@@ -80,7 +80,7 @@ export default {
         this._initScroll();
     },
     created() {
-        this.$store.dispatch(GET_HOME_CATEGORY);
+        this.$store.dispatch(GET_CATEGORY_LIST);
     },
     components: {
         Heading,

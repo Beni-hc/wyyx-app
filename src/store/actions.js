@@ -1,16 +1,25 @@
 import {
 	GET_HOME_LIST,
 	GET_HOME_SEARCH,
-	GET_HOME_CATEGORY,
+	GET_CATEGORY_LIST,
+	GET_WORTH_LIST_NAV,
+	GET_WORTH_ITEM_LIST,
 } from "./mutations-type";
-import { getHomeData, getHomeSearch, getHomeCategory } from "../api";
+import {
+	getHomeData,
+	getHomeSearch,
+	getCategoryData,
+	getWorthlistnav,
+	getworthitemlist,
+} from "../api";
 
 export default {
-	[GET_HOME_LIST]({ commit }) {
+	[GET_HOME_LIST]({ commit }, _isshowpage) {
 		getHomeData()
 			.then((response) => {
 				const result = response.data;
 				commit(GET_HOME_LIST, result);
+				_isshowpage();
 			})
 			.catch((error) => {
 				console.log(error.message);
@@ -26,11 +35,32 @@ export default {
 				console.log(error.message);
 			});
 	},
-	[GET_HOME_CATEGORY]({ commit }, id = "") {
-		getHomeCategory(id)
+	[GET_CATEGORY_LIST]({ commit }, id = "") {
+		getCategoryData(id)
 			.then((response) => {
 				const result = response.data;
-				commit(GET_HOME_CATEGORY, result);
+				commit(GET_CATEGORY_LIST, result);
+			})
+			.catch((error) => {
+				console.log(error.message);
+			});
+	},
+	[GET_WORTH_LIST_NAV]({ commit }) {
+		getWorthlistnav()
+			.then((response) => {
+				const result = response.data;
+				commit(GET_WORTH_LIST_NAV, result);
+			})
+			.catch((error) => {
+				console.log(error.message);
+			});
+	},
+	[GET_WORTH_ITEM_LIST]({ commit }, page) {
+		getworthitemlist(page.page)
+			.then((response) => {
+				const result = response.data;
+				commit(GET_WORTH_ITEM_LIST, result);
+				page._addWorthItemList();
 			})
 			.catch((error) => {
 				console.log(error.message);
