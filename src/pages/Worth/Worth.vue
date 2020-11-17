@@ -54,10 +54,6 @@ export default {
     },
     methods: {
         _onscroll() {
-            // let pages = document.documentElement || document.body;
-            // let ch = pages.clientHeight;
-            // let sh = pages.scrollHeight;
-            // let st = pages.scrollTop;
             let ch =
                 document.documentElement.clientHeight ||
                 document.body.clientHeight;

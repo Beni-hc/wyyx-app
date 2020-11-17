@@ -13,30 +13,53 @@ export default [
 	{
 		path: "/home",
 		component: Home,
+		meta: {
+			isShowFooter: true,
+			isShowFooterRed: 0,
+		},
 	},
 	//分类
 	{
 		path: "/category",
 		component: Category,
+		meta: {
+			isShowFooter: true,
+			isShowFooterRed: 1,
+		},
 	},
 	//值得买
 	{
 		path: "/worth",
 		component: Worth,
+		meta: {
+			isShowFooter: true,
+			isShowFooterRed: 2,
+		},
 	},
 	//购物车
 	{
 		path: "/shoppingTrolley",
+		name: "shoppingTrolley",
 		component: ShoppingTrolley,
+		meta: {
+			isShowFooter: true,
+			isShowFooterRed: 3,
+		},
 	},
 	//个人中心
 	{
 		path: "/personalInfo",
+		name: "personalInfo",
 		component: PersonalInfo,
 	},
 	{
 		path: "/loginpersonalinfo",
+		name: "loginpersonalinfo",
 		component: loginPersonalInfo,
+		meta: {
+			isShowFooter: true,
+			isShowFooterRed: 4,
+		},
 	},
 	//重定向
 	{

@@ -4,4 +4,5 @@ export default {
 	category: {},
 	worthNva: {},
 	worthItemList: {},
+	needToken: "123123",
 };

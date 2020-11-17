@@ -1,6 +1,6 @@
 <template>
     <div class="categoryList">
-        <div class="categoryrightTop">
+        <div class="categoryrightTop" v-if="!!category.currentCategory">
             <img
                 v-if="category.currentCategory.bannerList.length < 2"
                 :src="category.currentCategory.bannerList[0].picUrl"

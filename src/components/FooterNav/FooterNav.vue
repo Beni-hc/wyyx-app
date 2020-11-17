@@ -1,10 +1,10 @@
 <template>
-    <div v-show="isShow" class="footer-fixed">
+    <div class="footer-fixed">
         <div class="homeFooter">
             <div
                 v-for="(fooList, index) in footerList"
                 :key="index"
-                @touchstart.stop.prevent="activNav(index)"
+                @touchstart.stop.prevent="activNav(index, fooList.path)"
             >
                 <i
                     :style="[
@@ -41,62 +41,65 @@ export default {
     data() {
         return {
             isDot: 2,
-            isRed: 0,
-            isShow: true,
-            //登录状态
-            token: true,
-            path: [
-                "/home",
-                "/category",
-                "/worth",
-                "/shoppingTrolley",
-                "/personalInfo",
-            ],
+            isRed: this.$route.meta.isShowFooterRed,
             footerList: [
-                { name: "首页", imageX: -84, imageY: -38, redX: -84, redY: 3 },
-                { name: "分类", imageX: -42, imageY: -40, redX: 0, redY: -40 },
                 {
+                    path: "/home",
+                    name: "首页",
+                    imageX: -84,
+                    imageY: -38,
+                    redX: -84,
+                    redY: 3,
+                },
+                {
+                    path: "/category",
+                    name: "分类",
+                    imageX: -42,
+                    imageY: -40,
+                    redX: 0,
+                    redY: -40,
+                },
+                {
+                    path: "/worth",
                     name: "值得买",
                     imageX: -40,
                     imageY: -80,
                     redX: 0,
                     redY: -83,
                 },
-                { name: "购物车", imageX: -42, imageY: 1, redX: 0, redY: 1 },
-                { name: "个人", imageX: -125, imageY: 1, redX: -83, redY: -83 },
+                {
+                    path: "/shoppingTrolley",
+                    name: "购物车",
+                    imageX: -42,
+                    imageY: 1,
+                    redX: 0,
+                    redY: 1,
+                },
+                {
+                    path: "/loginpersonalinfo",
+                    name: "个人",
+                    imageX: -125,
+                    imageY: 1,
+                    redX: -83,
+                    redY: -83,
+                },
             ],
         };
     },
     methods: {
-        activNav(index) {
+        activNav(index, path) {
             if (this.isRed !== index) {
                 this.isRed = index;
-                if (this.token && index === 4) {
-                    this.$router.push("/loginpersonalinfo");
-                } else {
-                    this.$router.push(this.path[index]);
-                }
-            }
-        },
-        _routeIndex() {
-            if (this.token) return;
-            const path = this.$route.matched[0].path;
-            const index = this.path.findIndex((index) => index === path);
-            if (index !== this.isRed) this.isRed = index;
-            if (index !== 4 && !this.isShow) {
-                this.isShow = true;
-            }
-            if (index === 4 && this.isShow) {
-                this.isShow = false;
+                this.$router.push(path);
             }
         },
     },
-    mounted() {
-        this._routeIndex();
-    },
+    mounted() {},
     watch: {
         $route() {
-            this._routeIndex();
+            if (this.isRed !== this.$route.meta.isShowFooterRed) {
+                this.isRed = this.$route.meta.isShowFooterRed;
+            }
         },
     },
 };

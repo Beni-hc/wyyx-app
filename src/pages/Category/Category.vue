@@ -16,6 +16,7 @@
             </div>
             <div class="categoryRight" ref="categoryRight">
                 <div class="scrollBlock">
+                    <!-- <router-view :category="category"></router-view> -->
                     <CategoryContentList :category="category" />
                 </div>
             </div>

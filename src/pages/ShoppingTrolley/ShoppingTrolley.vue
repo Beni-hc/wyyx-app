@@ -26,12 +26,12 @@
             </ul>
         </div>
         <!-- 未登录时显示登录提示 -->
-        <div v-show="false" class="shoppingCart">
+        <div v-if="!needToken" class="shoppingCart">
             <div><img src="./img/gouwuche.png" alt="" /></div>
             <div>登录</div>
         </div>
         <!-- 购物车每一项 -->
-        <div>
+        <div v-if="needToken">
             <ul class="shoppingCartItem">
                 <li v-for="(item, index) in dataList" :key="index">
                     <ShoppingTrolleyItem
@@ -43,7 +43,7 @@
                 </li>
             </ul>
         </div>
-        <div class="shoppingCartGather">
+        <div v-if="needToken" class="shoppingCartGather">
             <div>
                 <div class="shoppingCartGatherLeft">
                     <i
@@ -67,15 +67,17 @@
             </div>
             <div>下单</div>
         </div>
-        <div style="height: 500px"></div>
+        <!-- <div style="height: 500px"></div> -->
     </div>
 </template>
 <script>
 import Heading from "../../components/Heading/Heading";
 import ShoppingTrolleyItem from "./ShoppingTrolleyItem/ShoppingTrolleyItem";
+import { mapState } from "vuex";
 import a from "../../DATA/data";
 export default {
     name: "ShoppingTrolley",
+    props: {},
     data() {
         return {
             dataList: [],
@@ -116,7 +118,11 @@ export default {
             });
         },
     },
-    computed: {},
+    computed: {
+        ...mapState({
+            needToken: (state) => !!state.needToken,
+        }),
+    },
     watch: {
         dataList: {
             handler: function (val) {
