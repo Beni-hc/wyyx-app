@@ -16,6 +16,8 @@ export default [
 		meta: {
 			isShowFooter: true,
 			isShowFooterRed: 0,
+			isShowHomeLoading: true,
+			isShowHomeMaskLayer: true,
 		},
 	},
 	//分类
@@ -25,6 +27,7 @@ export default [
 		meta: {
 			isShowFooter: true,
 			isShowFooterRed: 1,
+			isShowCategoryLoading: true,
 		},
 	},
 	//值得买
@@ -65,5 +68,8 @@ export default [
 	{
 		path: "/",
 		redirect: "/home",
+		meta: {
+			isShowHomeLoading: true,
+		},
 	},
 ];

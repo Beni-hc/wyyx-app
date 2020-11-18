@@ -1,5 +1,5 @@
 <template>
-    <div class="homeBox">
+    <div v-if="isShowPage" class="homeBox">
         <Heading>
             <div class="HeadingTop">
                 <a href="javascript:;"></a>
@@ -32,7 +32,11 @@ import HomeAvtivNav from "./HomeActivNav/HomeActivNav";
 import HomeNavSwitch from "./HomeNavSwitch/HomeNavSwitch";
 import Recommend from "./HomeBody/Recommend/Recommend";
 import { mapState } from "vuex";
-import { GET_HOME_SEARCH } from "../../store/mutations-type";
+import {
+    GET_HOME_SEARCH,
+    GET_HOME_LIST,
+    IS_SHOW_LOADING_AND_PAGE,
+} from "../../store/mutations-type";
 
 export default {
     name: "home",
@@ -52,7 +56,7 @@ export default {
         };
     },
     computed: {
-        ...mapState(["search"]),
+        ...mapState(["search", "isShowPage"]),
     },
     methods: {
         routerpath(index) {
@@ -64,6 +68,8 @@ export default {
         },
     },
     created() {
+        this.$store.commit(IS_SHOW_LOADING_AND_PAGE);
+        this.$store.dispatch(GET_HOME_LIST);
         this.$store.dispatch(GET_HOME_SEARCH);
     },
 };

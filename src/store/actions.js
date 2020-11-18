@@ -14,12 +14,11 @@ import {
 } from "../api";
 
 export default {
-	[GET_HOME_LIST]({ commit }, _isshowpage) {
+	[GET_HOME_LIST]({ commit }) {
 		getHomeData()
 			.then((response) => {
 				const result = response.data;
 				commit(GET_HOME_LIST, result);
-				_isshowpage();
 			})
 			.catch((error) => {
 				console.log(error.message);

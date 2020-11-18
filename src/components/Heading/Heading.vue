@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div class="padBox">
         <div class="pad" :style="{ height: heightChange + 'px' }"></div>
         <div :class="{ headPosition: !!heightNotActiv }">
-            <div class="topApp" v-show="showApp" @touchstart="clickApp">
+            <div class="topApp" v-show="showApp">
                 <div>
                     <div class="iconfont icon-label-lt" @touchstart="hideApp">
                         <i class="iconfont icon-svg--copy"></i>
@@ -19,6 +19,8 @@
     </div>
 </template>
 <script>
+import { mapState } from "vuex";
+import { IS_SHOW_HMOE_HEAD_APP } from "../../store/mutations-type";
 export default {
     name: "Heading",
     data() {
@@ -36,9 +38,6 @@ export default {
                 this.showApp = !!!scrollTop;
             }
         },
-        clickApp() {
-            this.$emit("clickApp");
-        },
         _headHeight() {
             this.heightNotActiv = this.$refs.headHeight.clientHeight;
             this.heightActiv = this.$refs.headHeight.parentElement.clientHeight;
@@ -46,7 +45,7 @@ export default {
         //点击X号
         hideApp() {
             this.showApp = false;
-            this.$emit("hideApp");
+            this.$store.commit(IS_SHOW_HMOE_HEAD_APP);
             document.removeEventListener("scroll", this._activApp);
         },
     },
@@ -54,17 +53,34 @@ export default {
         heightChange() {
             return this.showApp ? this.heightActiv : this.heightNotActiv;
         },
+        ...mapState(["isShowHmoeHeadAPP"]),
     },
     mounted() {
-        document.addEventListener("scroll", this._activApp);
-        this.$once("hook:beforeDestroy", function () {
-            document.removeEventListener("scroll", this._activApp);
-        });
+        if (this.isShowHmoeHeadAPP) {
+            document.addEventListener("scroll", this._activApp);
+            this.$once("hook:beforeDestroy", function () {
+                document.removeEventListener("scroll", this._activApp);
+            });
+        } else {
+            this.showApp = false;
+        }
         this._headHeight();
     },
 };
 </script>
 <style lang="stylus" scoped>
+.padBox
+    width 100%
+    height auto
+    position relative
+    &:after
+        content ''
+        position absolute
+        top 100%
+        left 0
+        right 0
+        height 1px
+        background-color #d9d9d9
 .pad
     width 100%
 .headPosition
@@ -74,15 +90,6 @@ export default {
     left 0
     background-color #fff
     z-index 20
-    &:after
-        content ''
-        position absolute
-        top 100%
-        left 0
-        right 0
-        height 1px
-        background-color #d9d9d9
-        z-index 100
 .topApp
     width 100%
     height 104px

@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <Heading @hideApp="isShow = !isShow">
+    <div v-if="isShowPage" class="categoryBox">
+        <Heading>
             <div class="categoryHead">
                 <searchBox :text="search" />
             </div>
         </Heading>
-        <div class="categoryBody" :style="changeHeight">
-            <div class="categoryLfet">
+        <div class="categoryBody">
+            <div v-show="true" class="categoryLfet">
                 <categoryContentNav
                     width="100%"
                     height="100%"
@@ -14,7 +14,7 @@
                     @onClick="routeNav"
                 />
             </div>
-            <div class="categoryRight" ref="categoryRight">
+            <div v-show="true" class="categoryRight" ref="categoryRight">
                 <div class="scrollBlock">
                     <!-- <router-view :category="category"></router-view> -->
                     <CategoryContentList :category="category" />
@@ -31,15 +31,16 @@ import searchBox from "../../components/Heading/searchBox";
 import categoryContentNav from "../Category/Category/categoryContentNav";
 import CategoryContentList from "./Category/CategoryContentList";
 
-import { GET_CATEGORY_LIST } from "../../store/mutations-type";
+import {
+    GET_CATEGORY_LIST,
+    IS_SHOW_LOADING_AND_PAGE,
+} from "../../store/mutations-type";
 import { mapState } from "vuex";
 
 export default {
     name: "category",
     data() {
-        return {
-            isShow: true,
-        };
+        return {};
     },
     methods: {
         _initScroll() {
@@ -64,23 +65,20 @@ export default {
         },
     },
     computed: {
-        changeHeight() {
-            return this.isShow
-                ? { height: `calc(100vh - 3.85rem)` }
-                : { height: `calc(100vh - 2.46rem)` };
-        },
         ...mapState({
+            isShowPage: "isShowPage",
             search: "search",
             category: function (state) {
-                this._initScroll();
+                if (this.isShowPage) this._initScroll();
                 return state.category;
             },
         }),
     },
     mounted() {
-        this._initScroll();
+        if (this.isShowPage) this._initScroll();
     },
     created() {
+        this.$store.commit(IS_SHOW_LOADING_AND_PAGE);
         this.$store.dispatch(GET_CATEGORY_LIST);
     },
     components: {
@@ -93,6 +91,12 @@ export default {
 };
 </script>
 <style lang="stylus" scoped>
+.categoryBox
+    width 100vw
+    height 100vh
+    padding-bottom 98px
+    display flex
+    flex-flow column nowrap
 .categoryHead
     width 100%
     height 87px
@@ -101,11 +105,11 @@ export default {
 .categoryBody
     width 100%
     background-color #fff
+    flex 1 1 0%
     display flex
     overflow hidden
 .categoryLfet
     width 162px
-    height 100%
     position relative
     top 0
     left 0
@@ -120,7 +124,6 @@ export default {
         transform-origin 100% 50% 0
         z-index 100
 .categoryRight
-    height 100%
     width 588px
     .scrollBlock
         width 100%

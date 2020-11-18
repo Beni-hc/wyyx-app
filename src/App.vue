@@ -1,15 +1,34 @@
 <template>
     <div class="box">
+        <div class="loading" v-if="loading">
+            <img
+                v-if="$route.meta.isShowHomeLoading"
+                src="./assets/loading/home.png"
+                alt=""
+            />
+            <img
+                v-if="$route.meta.isShowCategoryLoading"
+                src="./assets/loading/Category.png"
+                alt=""
+            />
+        </div>
         <router-view></router-view>
-        <FooterNav v-show="$route.meta.isShowFooter" />
+        <FooterNav v-show="isShowPage && $route.meta.isShowFooter" />
+        <HomeMaskLayer v-if="isShowPage && $route.meta.isShowHomeMaskLayer" />
     </div>
 </template>
 <script>
 import FooterNav from "./components/FooterNav/FooterNav";
+import HomeMaskLayer from "./pages/Home/HomeMaskLayer/HomeMaskLayer";
+import { mapState } from "vuex";
 export default {
     name: "app",
     components: {
         FooterNav,
+        HomeMaskLayer,
+    },
+    computed: {
+        ...mapState(["loading", "isShowPage"]),
     },
 };
 </script>
@@ -40,5 +59,13 @@ ul li {
 .box {
     background-color: #eee;
     /* padding-bottom: 98px; */
+}
+.loading {
+    width: 100%;
+    height: 100%;
+}
+.loading img {
+    width: 100%;
+    height: 100%;
 }
 </style>

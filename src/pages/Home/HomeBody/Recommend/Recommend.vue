@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isshowpage">
+    <div>
         <div class="banner">
             <banner :bannerList="homeDataList.focusList"></banner>
         </div>
@@ -219,21 +219,14 @@
 <script>
 import banner from "../../../../components/banner/banner";
 //常量
-import { GET_HOME_LIST } from "../../../../store/mutations-type";
 import { mapState } from "vuex";
 
 export default {
     name: "Recommend",
     data() {
-        return {
-            isshowpage: false,
-        };
+        return {};
     },
-    methods: {
-        _isshowpage() {
-            this.isshowpage = true;
-        },
-    },
+    methods: {},
     computed: {
         ...mapState(["homeDataList"]),
         xpsfBody() {
@@ -243,9 +236,7 @@ export default {
             return list;
         },
     },
-    created() {
-        this.$store.dispatch(GET_HOME_LIST, this._isshowpage);
-    },
+    created() {},
     components: {
         banner,
     },
