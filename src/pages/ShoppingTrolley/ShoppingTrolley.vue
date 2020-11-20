@@ -3,9 +3,15 @@
         <Heading>
             <div class="headNav">
                 <div class="leftTitle">购物车</div>
-                <div :class="true ? 'rightTextActive' : 'rightText'">
-                    <span>领券</span>
-                    <span v-show="true">编辑</span>
+                <div :class="rightStateChanges">
+                    <span @touchstart="clickTitleRight">{{
+                        isShowEditing ? "领券" : "完成"
+                    }}</span>
+                    <span
+                        @touchstart="editingShopping"
+                        v-show="needToken && isShowEditing"
+                        >编辑</span
+                    >
                 </div>
             </div>
         </Heading>
@@ -26,12 +32,14 @@
             </ul>
         </div>
         <!-- 未登录时显示登录提示 -->
-        <div v-if="!needToken" class="shoppingCart">
+        <div v-if="!!!needToken" class="shoppingCart">
             <div><img src="./img/gouwuche.png" alt="" /></div>
-            <div>登录</div>
+            <div @touchstart="$router.replace({ name: 'personalInfo' })">
+                登录
+            </div>
         </div>
         <!-- 购物车每一项 -->
-        <div v-if="needToken">
+        <div v-if="!!needToken">
             <ul class="shoppingCartItem">
                 <li v-for="(item, index) in dataList" :key="index">
                     <ShoppingTrolleyItem
@@ -43,7 +51,7 @@
                 </li>
             </ul>
         </div>
-        <div v-if="needToken" class="shoppingCartGather">
+        <div v-if="!!needToken" class="shoppingCartGather">
             <div>
                 <div class="shoppingCartGatherLeft">
                     <i
@@ -57,17 +65,20 @@
                     ></i>
                     <span>已选({{ selected }})</span>
                 </div>
-                <div class="shoppingCartGatherRight">
+                <div v-show="isShowEditing" class="shoppingCartGatherRight">
                     <div>
                         <span>合计: ¥</span>
                         <span>{{ totalActivityPrice }}</span>
                     </div>
-                    <p>已优惠: ¥{{ totalOriginalPrice }}</p>
+                    <p v-show="!!totalOriginalPrice">
+                        已优惠: ¥{{ totalOriginalPrice }}
+                    </p>
                 </div>
             </div>
-            <div>下单</div>
+            <div :class="{ activRed: !!selected }">
+                {{ isShowEditing ? "下单" : "删除所选" }}
+            </div>
         </div>
-        <!-- <div style="height: 500px"></div> -->
     </div>
 </template>
 <script>
@@ -85,6 +96,7 @@ export default {
             selected: 0,
             totalActivityPrice: 0,
             totalOriginalPrice: 0,
+            isShowEditing: true,
         };
     },
     methods: {
@@ -117,11 +129,36 @@ export default {
                 }
             });
         },
+        editingShopping() {
+            this.isShowEditing = false;
+        },
+        clickTitleRight() {
+            if (!this.needToken) {
+                console.log("未登录");
+            } else {
+                if (this.isShowEditing) {
+                    console.log("登录");
+                } else {
+                    this.isShowEditing = true;
+                }
+            }
+        },
     },
     computed: {
         ...mapState({
             needToken: (state) => !!state.needToken,
         }),
+        rightStateChanges() {
+            if (!this.needToken) {
+                return "rightNotLogIn";
+            } else {
+                if (this.isShowEditing) {
+                    return "rightLogIn";
+                } else {
+                    return "rightLogInEditing";
+                }
+            }
+        },
     },
     watch: {
         dataList: {
@@ -143,7 +180,11 @@ export default {
                 }, 0);
                 this.totalOriginalPrice = list.reduce((x, y) => {
                     return (
-                        x + (y.content.originalPrice * 10000 * y.count) / 10000
+                        x +
+                        ((y.content.originalPrice * 10000 -
+                            y.content.activityPrice * 10000) *
+                            y.count) /
+                            10000
                     );
                 }, 0);
             },
@@ -172,12 +213,12 @@ export default {
         padding-bottom 5px
         font-size 36px
         color #333
-    .rightText
+    .rightNotLogIn
         span
             font-size 30px
             color #dd1a21
             margin-right 30px
-    .rightTextActive
+    .rightLogIn
         width 162px
         display flex
         justify-content space-between
@@ -214,6 +255,10 @@ export default {
             &:last-child
                 font-size 30px
                 color #333
+    .rightLogInEditing
+        span
+            font-size 30px
+            color #333
 .description
     width 100%
     height 70px
@@ -314,11 +359,13 @@ export default {
                     margin-top 2px
         &:last-child
             width 226px
-            background-color #dd1a21
+            background-color #ccc
             font-size 28px
             color #ffffff
             text-align center
             line-height 118px
+            &.activRed
+                background-color #dd1a21
 .iconCheckRed
     color #dc1a21
 .iconCheckQuan

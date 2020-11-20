@@ -6,7 +6,7 @@ const axios = require("axios");
 app.use(express.urlencoded());
 app.use(express.json());
 
-app.use(express.static("../../dist"));
+app.use(express.static("../../test"));
 // https://m.you.163.com/
 //首页数据
 app.get("/home", (req, res) => {

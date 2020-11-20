@@ -45,7 +45,7 @@ export default {
     methods: {
         _initScroll() {
             this.$nextTick(() => {
-                if (!!!this.scroll) {
+                if (!this.scroll) {
                     this.scroll = new BScroll(this.$refs.categoryRight, {
                         startX: 0,
                         scrollX: false,

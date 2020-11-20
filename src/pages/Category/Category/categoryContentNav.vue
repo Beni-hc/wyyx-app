@@ -53,7 +53,7 @@ export default {
         //初始化滚动
         _initScroll() {
             this.$nextTick(() => {
-                if (!!!this.scroll) {
+                if (!this.scroll) {
                     this.scroll = new BScroll(this.$refs.navBox, {
                         startX: 0,
                         tap: "tap",

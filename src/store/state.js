@@ -4,7 +4,7 @@ export default {
 	category: {},
 	worthNva: {},
 	worthItemList: {},
-	needToken: "123123",
+	needToken: "",
 	loading: true,
 	isShowPage: true,
 	isShowHomeMaskLayer: true,

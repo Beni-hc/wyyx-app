@@ -241,14 +241,14 @@ export default {
             const state = [false, false];
             if (this.loginMethod === 2) {
                 re = reEmail;
-                if (!!emailSuffix.length) {
+                if (emailSuffix.length) {
                     this.inputId = emailSuffix[0];
                 }
             }
             if (!!this.inputId && !re.test(this.inputId)) {
                 this.errorMessage = this.logInData.errorText.errorText[1];
             } else {
-                if (!!this.errorMessage) {
+                if (this.errorMessage) {
                     this.errorMessage = "";
                 }
                 if (
@@ -267,7 +267,7 @@ export default {
         //发送获取验证码的请求
         getCode() {
             if (this.countTime) return;
-            if (!!!this.inputId) {
+            if (!this.inputId) {
                 this.errorMessage = this.logInData.errorText.errorText[0];
                 return;
             }
@@ -286,41 +286,66 @@ export default {
     },
     computed: {
         heightChange() {
-            return !!this.pageHeight ? this.pageHeight + "px" : "100%";
+            return this.pageHeight ? this.pageHeight + "px" : "100%";
         },
         //0手机验证码登录，1手机密码登录，2邮箱登录
         logInBoxClass() {
-            if (this.loginMethod === 0) return "authCodeBox";
-            if (this.loginMethod === 1 || this.loginMethod === 2)
-                return "phoneEmailBox";
+            let logInClass;
+            if (this.loginMethod === 0) {
+                logInClass = "authCodeBox";
+            }
+            if (this.loginMethod === 1 || this.loginMethod === 2) {
+                logInClass = "phoneEmailBox";
+            }
+            return logInClass;
         },
         logInNumberClass() {
-            if (this.loginMethod === 0) return "authCodePhoneNumber";
-            if (this.loginMethod === 1 || this.loginMethod === 2)
-                return "phoneEmailInput";
+            let logInClass;
+            if (this.loginMethod === 0) {
+                logInClass = "authCodePhoneNumber";
+            }
+            if (this.loginMethod === 1 || this.loginMethod === 2) {
+                logInClass = "phoneEmailInput";
+            }
+            return logInClass;
         },
         logInPwdClass() {
-            if (this.loginMethod === 0) return "authCodeNumber";
-            if (this.loginMethod === 1 || this.loginMethod === 2)
-                return "phoneEmailInput";
+            let logInClass;
+            if (this.loginMethod === 0) {
+                logInClass = "authCodeNumber";
+            }
+            if (this.loginMethod === 1 || this.loginMethod === 2) {
+                logInClass = "phoneEmailInput";
+            }
+            return logInClass;
         },
         logInTextClass() {
-            if (this.loginMethod === 0) return "authCodeText";
-            if (this.loginMethod === 1) return "pwdText";
-            if (this.loginMethod === 2) return "emailText";
+            let logInClass;
+            if (this.loginMethod === 0) logInClass = "authCodeText";
+            if (this.loginMethod === 1) logInClass = "pwdText";
+            if (this.loginMethod === 2) logInClass = "emailText";
+            return logInClass;
         },
         logInButtonClass() {
-            if (this.loginMethod === 0) return "authCodeButton";
-            if (this.loginMethod === 1) return "phoneEmailButton";
-            if (this.loginMethod === 2) {
-                if (!!this.inputId && !!this.inputPwd && !!!this.errorMessage) {
-                    return "phoneEmailButton";
-                }
-                return "phoneEmailButton emailButton";
+            let logInClass;
+            if (this.loginMethod === 0) {
+                logInClass = "authCodeButton";
             }
+            if (this.loginMethod === 1) {
+                logInClass = "phoneEmailButton";
+            }
+            if (this.loginMethod === 2) {
+                if (!!this.inputId && !!this.inputPwd && !this.errorMessage) {
+                    logInClass = "phoneEmailButton";
+                } else {
+                    logInClass = "phoneEmailButton emailButton";
+                }
+            }
+            return logInClass;
         },
         //动态添加input属性及显示的文本
         logInData() {
+            let logInData;
             const PhoneCode = {
                 loginId: {
                     type: "tel",
@@ -423,9 +448,16 @@ export default {
                     ],
                 },
             };
-            if (this.loginMethod === 0) return PhoneCode;
-            if (this.loginMethod === 1) return PhonePwd;
-            if (this.loginMethod === 2) return emailPwd;
+            if (this.loginMethod === 0) {
+                logInData = PhoneCode;
+            }
+            if (this.loginMethod === 1) {
+                logInData = PhonePwd;
+            }
+            if (this.loginMethod === 2) {
+                logInData = emailPwd;
+            }
+            return logInData;
         },
         //邮箱后缀提示
         emailBoxSuffix() {
@@ -437,7 +469,7 @@ export default {
                 "@yeah.net",
                 "@188.com",
             ];
-            if (!!!inputId || inputId.indexOf(" ") !== -1) return "";
+            if (!inputId || inputId.indexOf(" ") !== -1) return "";
             if (inputId.indexOf("@") === -1) {
                 return emailBoxSuffix.map((x) => inputId + x);
             } else {

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
+import { directive } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
 import { mapState } from "vuex";
 import { GET_WORTH_LIST_NAV } from "../../../store/mutations-type";
@@ -58,10 +58,6 @@ export default {
                 return navList;
             },
         }),
-    },
-    components: {
-        Swiper,
-        SwiperSlide,
     },
     directives: {
         swiper: directive,

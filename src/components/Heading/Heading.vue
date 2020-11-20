@@ -34,8 +34,8 @@ export default {
         _activApp() {
             const scrollTop =
                 document.documentElement.scrollTop || document.body.scrollTop;
-            if (this.showApp === !!!!scrollTop) {
-                this.showApp = !!!scrollTop;
+            if (this.showApp === !!scrollTop) {
+                this.showApp = !scrollTop;
             }
         },
         _headHeight() {

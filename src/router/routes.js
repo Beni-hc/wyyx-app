@@ -1,12 +1,22 @@
-import Home from "../pages/Home/Home.vue";
-import Category from "../pages/Category/Category.vue";
-import Worth from "../pages/Worth/Worth.vue";
-import ShoppingTrolley from "../pages/ShoppingTrolley/ShoppingTrolley.vue";
+const Home = () => import("../pages/Home/Home.vue");
+const Category = () => import("../pages/Category/Category.vue");
+const Worth = () => import("../pages/Worth/Worth.vue");
+const ShoppingTrolley = () =>
+	import("../pages/ShoppingTrolley/ShoppingTrolley.vue");
+const PersonalInfo = () => import("../pages/PersonalInfo/PersonalInfo.vue");
+const loginPersonalInfo = () =>
+	import("../pages/PersonalInfo/loginPersonalInfo/loginPersonalInfo.vue");
+
+// import Home from "../pages/Home/Home.vue";
+// import Category from "../pages/Category/Category.vue";
+// import Worth from "../pages/Worth/Worth.vue";
+// import ShoppingTrolley from "../pages/ShoppingTrolley/ShoppingTrolley.vue";
 //个人页路由
-import PersonalInfo from "../pages/PersonalInfo/PersonalInfo.vue";
-import loginPersonalInfo from "../pages/PersonalInfo/loginPersonalInfo/loginPersonalInfo.vue";
+// import PersonalInfo from "../pages/PersonalInfo/PersonalInfo.vue";
+// import loginPersonalInfo from "../pages/PersonalInfo/loginPersonalInfo/loginPersonalInfo.vue";
 //category页路由
-import CategoryContentList from "../pages/Category/Category/CategoryContentList.vue";
+// import CategoryContentList from "../pages/Category/Category/CategoryContentList.vue";
+import store from "../store";
 
 export default [
 	//首页
@@ -54,6 +64,13 @@ export default [
 		path: "/personalInfo",
 		name: "personalInfo",
 		component: PersonalInfo,
+		beforeEnter: (to, from, next) => {
+			if (store.state.needToken) {
+				next(false);
+			} else {
+				next();
+			}
+		},
 	},
 	{
 		path: "/loginpersonalinfo",
@@ -62,6 +79,13 @@ export default [
 		meta: {
 			isShowFooter: true,
 			isShowFooterRed: 4,
+		},
+		beforeEnter: (to, from, next) => {
+			if (store.state.needToken) {
+				next();
+			} else {
+				next({ name: "personalInfo" });
+			}
 		},
 	},
 	//重定向

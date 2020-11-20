@@ -28,7 +28,10 @@
         </div>
         <div class="promotion">
             <div class="promotionTop">
-                <a href="javascript:;">
+                <a
+                    href="javascript:;"
+                    v-if="homeDataList.bigPromotionModule.floorList.length > 0"
+                >
                     <img
                         :src="
                             homeDataList.bigPromotionModule.floorList[0]
@@ -172,12 +175,12 @@
                     <div>
                         <p>{{ xpsfList.name }}</p>
                         <span>¥{{ xpsfList.retailPrice }}</span>
-                        <div v-show="xpsfList.itemTagList.lenght > 0">
+                        <div v-if="xpsfList.itemTagList.length > 0">
                             <div>
                                 <span>{{
-                                    xpsfList.itemTagList.lenght > 0
-                                        ? xpsfList.itemTagList[0].name
-                                        : ""
+                                    xpsfList.itemTagList[
+                                        xpsfList.itemTagList.length - 1
+                                    ].name
                                 }}</span>
                             </div>
                         </div>

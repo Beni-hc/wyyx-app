@@ -72,8 +72,8 @@ export default {
             }
         },
         _addWorthItemList() {
-            if (!!!this.worthLeftAndRight.length) {
-                this.worthItemList.result.forEach((e, index) => {
+            if (!this.worthLeftAndRight.length) {
+                this.worthItemList.result.forEach((e) => {
                     this.worthLeftAndRight.push(e.topics);
                 });
             } else {

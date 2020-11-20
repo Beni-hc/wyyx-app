@@ -21,6 +21,13 @@
             </HomeNavSwitch>
         </Heading>
         <Recommend />
+        <div
+            v-show="isShowScrollTop"
+            @touchstart="scrollTop"
+            class="homeStickyBox"
+        >
+            <i class="iconfont icon-xiangshangjiantou"></i>
+        </div>
     </div>
 </template>
 <script>
@@ -53,6 +60,8 @@ export default {
         return {
             show: true,
             showIndex: 0,
+            isShowScrollTop: false,
+            scrollHeight: null,
         };
     },
     computed: {
@@ -66,11 +75,49 @@ export default {
             this.show = !this.show;
             this.showIndex = index;
         },
+        scrollTop() {
+            const scrollTop =
+                document.documentElement.scrollTop || document.body.scrollTop;
+            if (scrollTop > 0) {
+                window.requestAnimationFrame(this.scrollTop);
+                window.scroll(0, scrollTop - scrollTop / 10);
+            }
+        },
+        _activScrollTop() {
+            const scrollTop =
+                document.documentElement.scrollTop || document.body.scrollTop;
+            if (!this.scrollHeight) {
+                const scrollHeight =
+                    document.documentElement.scrollHeight ||
+                    document.body.scrollHeight;
+                this.scrollHeight = scrollHeight * 0.3;
+            }
+            if (
+                !!this.scrollHeight &&
+                scrollTop > this.scrollHeight &&
+                !this.isShowScrollTop
+            ) {
+                this.isShowScrollTop = true;
+                this.scrollHeight = null;
+            }
+            if (
+                !!this.scrollHeight &&
+                scrollTop < this.scrollHeight &&
+                this.isShowScrollTop
+            ) {
+                this.isShowScrollTop = false;
+                this.scrollHeight = null;
+            }
+        },
     },
     created() {
         this.$store.commit(IS_SHOW_LOADING_AND_PAGE);
         this.$store.dispatch(GET_HOME_LIST);
         this.$store.dispatch(GET_HOME_SEARCH);
+        document.addEventListener("scroll", this._activScrollTop);
+        this.$once("hook:beforeDestroy", function () {
+            document.removeEventListener("scroll", this._activScrollTop);
+        });
     },
 };
 </script>
@@ -106,4 +153,30 @@ export default {
 .scrollWidth
     width 650px
     height 100%
+.homeStickyBox
+    width 80px
+    height 80px
+    position fixed
+    bottom 120px
+    right 20px
+    &:after
+        content ''
+        position absolute
+        top -50%
+        left -50%
+        width 200%
+        height 200%
+        border-radius 50%
+        border 1px solid rgba(0, 0, 0, 0.1)
+        background-color rgba(255, 255, 255, 0.9)
+        transform scale(0.5)
+        z-index 1
+    i
+        position absolute
+        top 50%
+        left 50%
+        z-index 2
+        font-size 40px
+        color rgba(0, 0, 0, 0.7)
+        transform translate(-45%, -50%)
 </style>

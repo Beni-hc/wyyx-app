@@ -13,7 +13,7 @@
     </div>
 </template>
 <script>
-import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
+import { directive } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
 export default {
     name: "banenr",
@@ -24,10 +24,6 @@ export default {
                 return [];
             },
         },
-    },
-    components: {
-        Swiper,
-        SwiperSlide,
     },
     directives: {
         swiper: directive,
