@@ -16,7 +16,6 @@ const loginPersonalInfo = () =>
 // import loginPersonalInfo from "../pages/PersonalInfo/loginPersonalInfo/loginPersonalInfo.vue";
 //category页路由
 // import CategoryContentList from "../pages/Category/Category/CategoryContentList.vue";
-import store from "../store";
 
 export default [
 	//首页
@@ -61,18 +60,6 @@ export default [
 	},
 	//个人中心
 	{
-		path: "/personalInfo",
-		name: "personalInfo",
-		component: PersonalInfo,
-		beforeEnter: (to, from, next) => {
-			if (store.state.needToken) {
-				next(false);
-			} else {
-				next();
-			}
-		},
-	},
-	{
 		path: "/loginpersonalinfo",
 		name: "loginpersonalinfo",
 		component: loginPersonalInfo,
@@ -80,13 +67,11 @@ export default [
 			isShowFooter: true,
 			isShowFooterRed: 4,
 		},
-		beforeEnter: (to, from, next) => {
-			if (store.state.needToken) {
-				next();
-			} else {
-				next({ name: "personalInfo" });
-			}
-		},
+	},
+	{
+		path: "/personalInfo",
+		name: "personalInfo",
+		component: PersonalInfo,
 	},
 	//重定向
 	{
