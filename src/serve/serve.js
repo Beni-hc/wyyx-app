@@ -51,7 +51,7 @@ app.get("/category", (req, res) => {
 		});
 });
 //值得买
-app.get("/worth/nav", (req, res) => {
+app.get("/worth/navWap", (req, res) => {
 	axios
 		.get("https://m.you.163.com/topic/v1/know/navWap.json")
 		.then((response) => {
@@ -62,10 +62,21 @@ app.get("/worth/nav", (req, res) => {
 			console.log(error.message);
 		});
 });
-app.get("/worth/itemlist", (req, res) => {
+app.get("/worth/recManual", (req, res) => {
+	axios
+		.get("https://m.you.163.com/topic/v1/find/recManual.json")
+		.then((response) => {
+			const result = response.data;
+			res.send(JSON.stringify(result));
+		})
+		.catch((error) => {
+			console.log(error.message);
+		});
+});
+app.get("/worth/recAuto", (req, res) => {
 	const page = req.query.page;
 	const size = 2;
-	const exceptIds = "";
+	const exceptIds = req.query.exceptIds;
 	axios
 		.get("https://m.you.163.com/topic/v1/find/recAuto.json", {
 			params: { page, size, exceptIds },
